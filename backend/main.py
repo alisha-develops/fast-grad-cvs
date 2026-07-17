@@ -3,8 +3,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from dotenv import load_dotenv
-
+from backend.core.database import SessionLocal, Base, engine
+from backend.models.student import Student
 from backend.schemas.submission import StudentSubmission
+from backend.core.database import Base, engine
+
+
+Base.metadata.create_all(bind=engine)
 
 load_dotenv()
 
@@ -34,9 +39,19 @@ def home(request: Request):
 
 @app.post("/submit")
 def submit(student: StudentSubmission):
-    print(student.fullName)
+    db = SessionLocal()
+
+    new_student = Student(
+        full_name=student.fullName
+    )
+
+    db.add(new_student)
+    db.commit()
+    db.refresh(new_student)
+
+    db.close()
 
     return {
-        "message": "Received!",
-        "name": student.fullName
+        "message": "Saved!",
+        "id": new_student.id
     }
