@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/frontend/images/fast (2).png">
+    <link rel="stylesheet" href="/frontend/css/form.css"/>
+    <title>2026 graduate directory</title>
+</head>
+<body>
+    <div class="formpanel">
+        <div class="formheader">
+            <img src="/frontend/images/fastlogo.png" alt="FAST-NU Logo" onerror="this.style.display='none'" style="background:#fff;border-radius:50%;padding:2px;"/>
+            <div class="form-header-text">
+                <h1>Graduate Profile Form 2026</h1>
+                <p>FAST - National University of Computer &amp; Emerging Sciences · Karachi</p>
+            </div>
+        </div>
+    </div>
+    <button class="previewtoggle" onclick="toggleMobilePreview()">👁 toggle cv preview</button>
+    <div class="mobilepreview" id="mobpreview"></div>
+
+    <div class="field">
+          <label>Full Name <span>*</span></label>
+          <input type="text" name="fullName" placeholder="e.g. Zainab Shaikh" data-preview="cv-name" required/>
+    </div>
+    <div class="step-page" data-step="5">
+        <button type="button" class="btn btn-submit" id="submit-btn" onclick="submitForm()">Submit Profile ✓</button>
+    </div>
+
+    <script src="/frontend/js/form.js"></script>
+</body>
+</html>
