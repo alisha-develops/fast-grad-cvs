@@ -36,6 +36,23 @@ def home(request: Request):
         name="form.html"
     )
 
+@app.get("/admin")
+def admin():
+    db = SessionLocal()
+
+    students = db.query(Student).all()
+
+    result = []
+
+    for student in students:
+        result.append({
+            "id": student.id,
+            "full_name": student.full_name
+        })
+
+    db.close()
+
+    return result
 
 @app.post("/submit")
 def submit(student: StudentSubmission):
