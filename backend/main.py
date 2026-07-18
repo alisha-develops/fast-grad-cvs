@@ -47,7 +47,15 @@ def admin():
     for student in students:
         result.append({
             "id": student.id,
-            "full_name": student.full_name
+            "full_name": student.full_name,
+            "student_id": student.student_id,
+            "email": student.email,
+            "phone": student.phone,
+            "cgpa": student.cgpa,
+            "degree_program": student.degree_program,
+            "linkedin": student.linkedin,
+            "portfolio": student.portfolio,
+            "objective": student.objective
         })
 
     db.close()
