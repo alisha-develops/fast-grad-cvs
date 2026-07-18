@@ -37,12 +37,18 @@ def home(request: Request):
         name="form.html"
     )
 
-@app.get("/admin", response_model=List[StudentOut])
-def admin():
+@app.get("/admin", response_class=HTMLResponse)
+def admin(request:Request):
     db = SessionLocal()
     students = db.query(Student).all()
     db.close()
-    return students
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin.html",
+        context={"students": students}
+    )
+
 
 @app.post("/submit")
 def submit(student: StudentSubmission):

@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: #eef2f7;
+    color: #1a3a5c;
+}
+
+.topbar {
+    background: #1a3a5c;
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    color: #c9a84c;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.count {
+    color: #a8c4e0;
+    font-size: 12px;
+}
+
+.gold-bar {
+    height: 3px;
+    background: #c9a84c;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.card {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid #e8eef5;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #f2f5f8;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #5a7a96;
+    padding: 0.7rem 1rem;
+    text-align: left;
+}
+
+td {
+    padding: 0.75rem 1rem;
+    font-size: 12.5px;
+    border-bottom: 0.5px solid #e8eef5;
+}
