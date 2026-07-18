@@ -59,7 +59,15 @@ def submit(student: StudentSubmission):
     db = SessionLocal()
 
     new_student = Student(
-        full_name=student.fullName
+        full_name=student.fullName,
+        student_id = student.studentId,
+        email = student.email,
+        phone = student.phone,
+        cgpa = student.cgpa,
+        degree_program = student.degreeProgram,
+        linkedin = student.linkedin,
+        portfolio = student.portfolio,
+        objective = student.objective
     )
 
     db.add(new_student)

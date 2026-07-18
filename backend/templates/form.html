@@ -16,18 +16,102 @@
                 <p>FAST - National University of Computer &amp; Emerging Sciences · Karachi</p>
             </div>
         </div>
-    </div>
-    <button class="previewtoggle" onclick="toggleMobilePreview()">👁 toggle cv preview</button>
-    <div class="mobilepreview" id="mobpreview"></div>
+        <div class="gold-stripe"></div>
+        <button class="previewtoggle" onclick="toggleMobilePreview()">👁 toggle cv preview</button>
+        <div class="mobilepreview" id="mobpreview"></div>
+        <div class="formbody">
+            <div class="stepbar">
+                <button class="step active" data-step="1">1. Personal</button>
+                <button class="step" data-step="2">2. Education</button>
+                <button class="step" data-step="3">3. Skills</button>
+                <button class="step" data-step="4">4. Experience</button>
+                <button class="step" data-step="5">5. Review</button>
+            </div>
+            <div class="progress"><div class="progress-fill" id="progress-fill" style="width:20%;"></div></div>
 
-    <div class="field">
-          <label>Full Name <span>*</span></label>
-          <input type="text" name="fullName" placeholder="e.g. Zainab Shaikh" data-preview="cv-name" required/>
-    </div>
-    <div class="step-page" data-step="5">
-        <button type="button" class="btn btn-submit" id="submit-btn" onclick="submitForm()">Submit Profile ✓</button>
+            <form id="cvform" novalidate>
+            
+            <div class="steppage active" data-step="1">
+                <p class="steptitle">Personal Information</p>
+                <p class="stepdesc">This will appear in the header of your CV.</p>
+                <div class="field">
+                    <label>Passport Photo</label>
+                    <div class="photoupload">
+                        <div class="photopreview" id="photo-preview" onclick="document.getElementById('photoinput').click()">photo here</div>
+                    <div>
+                        <button type="button" class="upload-btn" onclick="document.getElementById('photoinput').click()">Choose Photo</button>
+                        <p class="hint">JPG or PNG · Max 5 MB</p>
+                    </div>
+                </div>
+                <input type="file" id="photoinput" accept="image/jpeg,image/png,image/webp" style="display:none"/>
+            </div>
+            <div class="fieldrow">
+                <div class="field">
+                    <label>Full Name <span>*</span></label>
+                    <input type="text" name="fullName" placeholder="e.g. Zainab Shaikh" data-preview="cv-name" required/>
+                </div>
+                <div class="field">
+                    <label>Student ID <span>*</span></label>
+                    <input type="text" name="studentId" placeholder="e.g. K19-2025" data-preview="cv-id" required/>
+                </div>
+            </div>
+            <div class="fieldrow">
+                <div class="field">
+                    <label>Email Address <span>*</span></label>
+                    <input type="email" name="email" placeholder="your@email.com" data-preview="cv-email" required/>
+                </div>
+                <div class="field">
+                    <label>Cell Phone <span>*</span></label>
+                    <input type="tel" name="phone" placeholder="03241234567" data-preview="cv-phone" required/>
+                </div>
+            </div>
+            <div class="fieldrow">
+                <div class="field">
+                    <label>CGPA <span>*</span></label>
+                    <input type="text" name="cgpa" placeholder="e.g. 3.56" data-preview="cv-cgpa" required/>
+                </div>
+                <div class="field">
+                    <label>Degree Program <span>*</span></label>
+                    <select name="degreeProgram" data-preview="cv-prog" required>
+                        <option value="">Select program…</option>
+                        <option>BS Computer Science</option>
+                        <option>BS Software Engineering</option>
+                        <option>BS Computer Engineering</option>
+                        <option>BS Electrical Engineering</option>
+                        <option>BS Business Analytics</option>
+                        <option>BS Artificial Intelligence</option>
+                        <option>BS Financial Technology (fintech)</option>
+                        <option>BS Cyber Security</option>
+                        <option>BS Data Science</option>
+                        <option>MS Computer Science</option>
+                        <option>MS Data Science</option>
+                        <option>MS Software Engineering</option>
+                        <option>MS Artificial Intelligence</option>
+                        <option>MS Cyber Security</option>
+                        <option>MS Business Analytics</option>
+                        <option>MS(SPM)</option>
+                        <option>MS(CNS)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="fieldrow">
+                <div class="field">
+                    <label>LinkedIn URL <span>*</span></label>
+                    <input type="text" name="linkedin" placeholder="linkedin.com/in/yourname" data-preview="cv-linkedin"/>
+                </div>
+            <div class="field">
+                <label>Portfolio / Website</label>
+                <input type="text" name="portfolio" placeholder="yoursite.dev" data-preview="cv-portfolio"/>
+            </div>
+        </div>
+        <div class="field">
+            <label>Career Objective <span>*</span></label>
+            <textarea name="objective" rows="4" data-preview="cv-obj" placeholder="Write 2–3 sentences about your career goals…" required></textarea>
+        </div>
+        <div class="navbuttons"><span></span><button type="button" class="btn btnnext" onclick="goStep(2)">Next →</button></div>
     </div>
 
+    
     <script src="/frontend/js/form.js"></script>
 </body>
 </html>
