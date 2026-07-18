@@ -5,8 +5,9 @@ from fastapi.responses import HTMLResponse
 from dotenv import load_dotenv
 from backend.core.database import SessionLocal, Base, engine
 from backend.models.student import Student
-from backend.schemas.submission import StudentSubmission
-from backend.core.database import Base, engine
+from backend.schemas.submission import StudentSubmission, StudentOut
+from typing import List
+from fastapi import HTTPException
 
 
 Base.metadata.create_all(bind=engine)
@@ -36,31 +37,12 @@ def home(request: Request):
         name="form.html"
     )
 
-@app.get("/admin")
+@app.get("/admin", response_model=List[StudentOut])
 def admin():
     db = SessionLocal()
-
     students = db.query(Student).all()
-
-    result = []
-
-    for student in students:
-        result.append({
-            "id": student.id,
-            "full_name": student.full_name,
-            "student_id": student.student_id,
-            "email": student.email,
-            "phone": student.phone,
-            "cgpa": student.cgpa,
-            "degree_program": student.degree_program,
-            "linkedin": student.linkedin,
-            "portfolio": student.portfolio,
-            "objective": student.objective
-        })
-
     db.close()
-
-    return result
+    return students
 
 @app.post("/submit")
 def submit(student: StudentSubmission):
@@ -88,3 +70,19 @@ def submit(student: StudentSubmission):
         "message": "Saved!",
         "id": new_student.id
     }
+
+
+@app.get("/admin/preview/{db_id}", response_class=HTMLResponse)
+def preview_student(request: Request, db_id: int):
+    db = SessionLocal()
+    student = db.query(Student).filter(Student.id == db_id).first()
+    db.close()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    return templates.TemplateResponse(
+        request=request,
+        name="preview.html",
+        context={"student": student, "printable": True}
+    )

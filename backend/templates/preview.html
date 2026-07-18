@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>CV: {{ student.full_name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/frontend/css/preview.css"/>
+</head>
+<body>
+
+    {% if printable %}
+    <div class="print-bar">
+        <button id="print-btn" class="btn-print">Print / Save as PDF</button>
+        <button id="close-btn" class="btn-close">Close</button>
+        <p class="print-hint">In the print dialog: set <strong>Margins = None</strong> and tick <strong>Background graphics</strong> ✓ for full color.</p>
+    </div>
+    {% endif %}
+
+    <div class="page">
+        <div class="watermark">
+            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="150" r="140" fill="none" stroke="#1a3a5c" stroke-width="3"/>
+                <circle cx="150" cy="150" r="120" fill="none" stroke="#1a3a5c" stroke-width="1"/>
+                <text x="150" y="30" text-anchor="middle" font-size="11" font-family="Outfit" fill="#1a3a5c" letter-spacing="3">FAST</text>
+                <text x="150" y="278" text-anchor="middle" font-size="9" font-family="Outfit" fill="#1a3a5c" letter-spacing="2">KARACHI CAMPUS</text>
+                <text x="150" y="185" text-anchor="middle" font-size="28" font-family="Outfit" font-weight="700" fill="#1a3a5c" letter-spacing="-1">NU</text>
+                <text x="150" y="210" text-anchor="middle" font-size="8" font-family="Outfit" fill="#1a3a5c" letter-spacing="2">COMPUTER SCIENCES</text>
+            </svg>
+        </div>
+
+        <div class="cv-header">
+            <div class="header-row">
+                <div class="header-gold-edge"></div>
+                <div class="header-text">
+                    <p class="header-eyebrow">FAST – National University of Computer &amp; Emerging Sciences · Karachi</p>
+                    <h1 class="header-name">{{ student.full_name }}</h1>
+                    <p class="header-meta">{{ student.degree_program or 'BS Computer Science' }} &nbsp;·&nbsp; Student ID: {{ student.student_id }}</p>
+                    <div class="header-contacts">
+                        <span class="contact-item">{{ student.email }}</span>
+                        <span class="contact-item">{{ student.phone }}</span>
+                        {% if student.linkedin %}
+                        <span class="contact-item">{{ student.linkedin }}</span>
+                        {% endif %}
+                        {% if student.portfolio %}
+                        <span class="contact-item">{{ student.portfolio }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="header-side">
+                    <div class="cgpa-badge">CGPA {{ student.cgpa }}</div>
+                    <p class="header-side-id">{{ student.student_id }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="gold-bar"></div>
+
+        <div class="cv-body">
+            {% if student.objective %}
+            <div class="section">
+                <p class="sec-title">Career Objective</p>
+                <div class="obj-box">
+                    <p class="obj-text">{{ student.objective }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="footer">
+            <span class="footer-left">FAST–NUCES · KARACHI CAMPUS · GRADUATE PROFILES 2026</span>
+            <span class="footer-right">{{ (student.degree_program or 'BS COMPUTER SCIENCE').upper() }}</span>
+        </div>
+    </div>
+
+    <script src="/frontend/js/preview.js"></script>
+</body>
+</html>
