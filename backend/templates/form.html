@@ -38,6 +38,7 @@
                     <label>Passport Photo</label>
                     <div class="photoupload">
                         <div class="photopreview" id="photo-preview" onclick="document.getElementById('photoinput').click()">photo here</div>
+                    </div>
                     <div>
                         <button type="button" class="upload-btn" onclick="document.getElementById('photoinput').click()">Choose Photo</button>
                         <p class="hint">JPG or PNG · Max 5 MB</p>
@@ -110,6 +111,8 @@
         </div>
         <div class="navbuttons"><span></span><button type="button" class="btn btnnext" onclick="goStep(2)">Next →</button></div>
     </div>
+
+    <button type="button" class="btn" onclick="submitForm()">Submit</button>
 
     
     <script src="/frontend/js/form.js"></script>
