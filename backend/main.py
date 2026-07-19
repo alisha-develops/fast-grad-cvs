@@ -60,7 +60,7 @@ def admin_login_page(request: Request, err: str = None):
         context={"error": err}
     )
 
-@app.get("admin/login")
+@app.post("admin/login")
 def admin_login_submit(request: Request, password: str = Form(...)):
     if password == ADMIN_PASSWORD:
         request.session["admin"] = True
@@ -98,7 +98,7 @@ def admin(
 
     all_programs = db.query(Student.degree_program).distinct().all()
     program_list = []
-    for row in all_program:
+    for row in all_programs:
         if row[0]:
             program_list.append(row[0])
     program_list.sort()
