@@ -12,9 +12,9 @@ function goStep(step) {
 
     currentStep = step;
 
-    document.querySelector('.steppage[data-step="' + currentStep + '"]').classList.remove("active");
+    document.querySelector('.steppage[data-step="' + currentStep + '"]').classList.add("active");
 
-    let newButton = document.querySelector('.steppage[data-step"' + currentStep + '"]')
+    let newButton = document.querySelector('.step[data-step"' + currentStep + '"]')
     newButton.classList.remove("done");
     newButton.classList.add("active");
 
