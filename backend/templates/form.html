@@ -142,6 +142,70 @@
             <button type="button" class="btn btnback" onclick="goStep(1)">← Back</button>
             <button type="button" class="btn btnnext" onclick="goStep(3)">Next →</button>
         </div>
+
+        <div class="steppage" data-step="3">
+            <p class="steptitle">Skills &amp; Interests</p>
+            <p class="stepdesc">Help employers understand what you know.</p>
+            <div class="field">
+                <label>Areas of Interest - Select Top 3 <span>*</span></label>
+                <div class="checkbox-group" id="areas-group">
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Artificial Intelligence"/> Artificial Intelligence
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Web Development"/> Web Development
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Data Science"/> Data Science
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Cybersecurity"/> Cybersecurity
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Cloud Computing"/> Cloud Computing
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Mobile Development"/> Mobile Development
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Game Development"/> Game Development
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Blockchain"/> Blockchain
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="Computer Vision"/> Computer Vision
+                    </label>
+                    <label>
+                        <input type="checkbox" name="areasOfInterest" value="NLP"/> NLP
+                    </label>
+                </div>
+            </div>
+            <div class="field">
+                <label>Technical Skills <span>*</span></label>
+                <textarea name="technicalSkills" rows="3" data-preview="cv-skills" placeholder="Python&#10;JavaScript&#10;React.js&#10;TensorFlow" required></textarea>
+                <p class="hint">One skill per line.</p>
+            </div>
+            <div class="field">
+                <label>Personal Skills &amp; Interests <span>*</span></label>
+                <input type="text" name="personalSkills" data-preview="cv-personal" placeholder="Problem Solving, Team Leadership, Communication" required/>
+                <p class="hint">Separate with commas.</p>
+            </div>
+            <div class="field">
+                <label>Certifications</label>
+                <textarea name="certifications" rows="3" data-preview="cv-certs" placeholder="AWS Cloud Practitioner&#10;Google Data Analytics"></textarea>
+                <p class="hint">One per line.</p>
+            </div>
+            <div class="field">
+                <label>Academic Honors / Dean's List</label>
+                <textarea name="honors" rows="3" data-preview="cv-honors" placeholder="Dean's Honor List — Fall 2021&#10;Merit Scholarship 2020–2024"></textarea>
+                <p class="hint">One per line.</p>
+            </div>
+            <div class="navbuttons">
+                <button type="button" class="btn btnback" onclick="goStep(2)">← Back</button>
+                <button type="button" class="btn btnnext" onclick="goStep(4)">Next →</button>
+            </div>
+        </div>
     </div>
 
     <button type="button" class="btn" onclick="submitForm()">Submit</button>
