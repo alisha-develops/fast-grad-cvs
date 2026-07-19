@@ -60,7 +60,7 @@ def admin_login_page(request: Request, err: str = None):
         context={"error": err}
     )
 
-@app.post("admin/login")
+@app.post("/admin/login")
 def admin_login_submit(request: Request, password: str = Form(...)):
     if password == ADMIN_PASSWORD:
         request.session["admin"] = True
