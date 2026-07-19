@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="/frontend/css/admin.css" rel="stylesheet"/>
     <title>admin login</title>
 </head>
-<body>
-    <div class="card">
-        <p class="logo">FAST-NUCES · Karachi</p>
-        <h1>Admin Login</h1>
+<body id="loginbody">
+    <div class="logincard">
+        <p class="loginlogo">FAST NUCES · Karachi</p>
+        <h1 class="loginh1">Admin Login</h1>
         {% if error %}
-        <p class="err">Incorrect password.</p>
+        <p class="loginerr">Incorrect password.</p>
         {% endif %}
         <form method="POST" action="/admin/login">
-            <label>Password</label>
-            <input type="password" name="password" autofocus/>
-            <button type="submit">Sign In</button>
+            <label style="font-size: 12px; color: #5a7a96;font-weight: 500; display: block; margin-bottom: 4px;">Password</label>
+            <input class="logininput" type="password" name="password" autofocus/>
+            <button class="loginbutton" type="submit">Sign In</button>
         </form>
     </div>
     </div>
