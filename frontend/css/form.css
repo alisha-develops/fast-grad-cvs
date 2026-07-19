@@ -10,3 +10,59 @@ body {
     font-family: 'Outfit', sans-serif;
     background: #e8edf3;
 }
+
+.formpanel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+    background-color: #e8edf3;
+}
+
+.formheader{
+    background-color: #1a3a5c;
+    padding: 1rem 1.8rem;
+    position: sticky;
+    top: 0;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+}
+
+.formheader img{
+    width:48px;
+    height:48px;
+    object-fit:contain;
+    flex-shrink:0;
+}
+
+.form-header-text h1{
+    font-size: 15px;
+    font-weight:600;
+    color:#fff;
+    margin-bottom:2px;
+}
+
+.form-header-text p{
+    font-size:10px;
+    color:#a8c4e0;
+    letter-spacing:.5px;
+}
+
+.gold-stripe {
+    height:3px;
+    background:#c9a84c;
+}
+.form-body {
+    padding:1.5rem 1.8rem;
+}
+
+.previewtoggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .previewtoggle {
+        display: block;
+    }
+}
