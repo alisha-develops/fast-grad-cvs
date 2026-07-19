@@ -147,3 +147,13 @@ td {
     font-size: 12px;
     margin-bottom: 8px;
 }
+
+.logout-link {
+    color: #a8c4e0;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.logout-link:hover {
+    color: #fff;
+}
