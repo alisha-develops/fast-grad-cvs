@@ -112,6 +112,38 @@
         <div class="navbuttons"><span></span><button type="button" class="btn btnnext" onclick="goStep(2)">Next →</button></div>
     </div>
 
+    <div class="steppage" data-step="2">
+        <p class="steptitle">Educational Background</p>
+        <p class="stepdesc">List your degrees from most recent to oldest.</p>
+        <div class="field">
+            <label>Educational History <span>*</span></label>
+            <textarea name="education" rows="6" data-preview="cv-edu" required
+            placeholder="2019-2023: BS Computer Science: FAST-NUCES Karachi, CGPA 3.56&#10;2017–2019: HSC/A Levels: DHA Suffa College, 87%&#10;2015–2017: SSC/O Levels: The City School, A+"></textarea>
+            <p class="hint">One entry per line.</p>
+        </div>
+        <div class="field">
+            <label>FYP Title <span>*</span></label>
+            <input type="text" name="fypTitle" data-preview="cv-fyp-title" placeholder="e.g. AI-Powered Mental Health Chatbot" required/>
+        </div>
+        <div class="field">
+            <label>FYP Description <span>*</span></label>
+            <textarea name="fypDesc" rows="3" data-preview="cv-fyp-desc" placeholder="Brief description of your project…" required></textarea>
+        </div>
+        <div class="field">
+            <label>Supervisor's Name <span>*</span></label>
+            <input type="text" name="fypSupervisor" data-preview="cv-fyp-sup" placeholder="e.g. Dr. Ahmed Raza" required/>
+        </div>
+        <div class="field">
+            <label>Elective Courses <span>*</span></label>
+            <input type="text" name="electiveCourses" data-preview="cv-courses" placeholder="Machine Learning, Cloud Computing, Computer Vision" required/>
+            <p class="hint">Separate with commas.</p>
+        </div>
+        <div class="navbuttons">
+            <button type="button" class="btn btnback" onclick="goStep(1)">← Back</button>
+            <button type="button" class="btn btnnext" onclick="goStep(3)">Next →</button>
+        </div>
+    </div>
+
     <button type="button" class="btn" onclick="submitForm()">Submit</button>
 
     
