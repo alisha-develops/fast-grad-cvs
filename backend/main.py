@@ -116,8 +116,21 @@ def admin(
         }
     )
 
+@app.get("/admin/delete/{db_id}")
+def delete_student(request: Request, db_id: int, auth=Depends(require_admin)):
+    db = SessionLocal()
+    student = db.query(Student).filter(Student.id == db_id).first()
 
-@app.post("/submit")
+    if not student:
+        db.close()
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    db.delete(student)
+    db.commit()
+    db.close()
+
+    return RedirectResponse(url="/admin", status_code=302)
+
 def submit(student: StudentSubmission):
     db = SessionLocal()
 
