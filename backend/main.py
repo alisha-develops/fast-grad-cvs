@@ -130,7 +130,19 @@ def submit(student: StudentSubmission):
         degree_program=student.degreeProgram,
         linkedin=student.linkedin,
         portfolio=student.portfolio,
-        objective=student.objective
+        objective=student.objective,
+        education=student.education,
+        fyp_title=student.fypTitle,
+        fyp_desc=student.fypDesc,
+        fyp_supervisor=student.fypSupervisor,
+        elective_courses=student.electiveCourses,
+        areas_of_interest=student.areasOfInterest,
+        technical_skills=student.technicalSkills,
+        personal_skills=student.personalSkills,
+        certifications=student.certifications,
+        honors=student.honors,
+        internship=student.internship,
+        leadership=student.leadership
     )
 
     db.add(new_student)
@@ -143,7 +155,6 @@ def submit(student: StudentSubmission):
         "message": "Saved!",
         "id": new_student.id
     }
-
 @app.get("/admin/preview/{db_id}", response_class=HTMLResponse)
 def preview_student(request: Request, db_id: int, _: None = Depends(require_admin)):
     db = SessionLocal()

@@ -11,3 +11,15 @@ class StudentSubmission(BaseModel):
     linkedin: Optional[str] = None
     portfolio: Optional[str] = None
     objective: str
+    education: str
+    fypTitle: str
+    fypDesc: str
+    fypSupervisor: str
+    electiveCourses: str
+    areasOfInterest: str
+    technicalSkills: str
+    personalSkills: str
+    certifications: Optional[str] = None
+    honors: Optional[str] = None
+    internship: str
+    leadership: str

@@ -8,248 +8,256 @@
     <title>2026 graduate directory</title>
 </head>
 <body>
-    <div class="formpanel">
-        <div class="formheader">
-            <img src="/frontend/images/fastlogo.png" alt="FAST-NU Logo" onerror="this.style.display='none'" style="background:#fff;border-radius:50%;padding:2px;"/>
-            <div class="form-header-text">
-                <h1>Graduate Profile Form 2026</h1>
-                <p>FAST - National University of Computer &amp; Emerging Sciences · Karachi</p>
+    <div class="left">
+        <div class="formpanel">
+            <div class="formheader">
+                <img src="/frontend/images/fastlogo.png" alt="FAST-NU Logo" onerror="this.style.display='none'" style="background:#fff;border-radius:50%;padding:2px;"/>
+                <div class="form-header-text">
+                    <h1>Graduate Profile Form 2026</h1>
+                    <p>FAST - National University of Computer &amp; Emerging Sciences · Karachi</p>
+                </div>
+            </div>
+            <div class="gold-stripe"></div>
+            <button class="previewtoggle" onclick="toggleMobilePreview()">👁 toggle cv preview</button>
+            <div class="mobilepreview" id="mobpreview"></div>
+            <div class="formbody">
+                <div class="stepbar">
+                    <button class="step active" data-step="1">1. Personal</button>
+                    <button class="step" data-step="2">2. Education</button>
+                    <button class="step" data-step="3">3. Skills</button>
+                    <button class="step" data-step="4">4. Experience</button>
+                    <button class="step" data-step="5">5. Review</button>
+                </div>
+                <div class="progress"><div class="progress-fill" id="progress-fill" style="width:20%;"></div></div>
+
+                <form id="cvform" novalidate>
+            
+                    <div class="steppage active" data-step="1">
+                        <p class="steptitle">Personal Information</p>
+                        <p class="stepdesc">This will appear in the header of your CV.</p>
+                        <div class="field">
+                            <label>Passport Photo</label>
+                            <div class="photoupload">
+                                <div class="photopreview" id="photo-preview" onclick="document.getElementById('photoinput').click()">photo here</div>
+                            </div>
+                            <div>
+                                <button type="button" class="upload-btn" onclick="document.getElementById('photoinput').click()">Choose Photo</button>
+                                <p class="hint">JPG or PNG · Max 5 MB</p>
+                            </div>
+                        </div>
+                        <input type="file" id="photoinput" accept="image/jpeg,image/png,image/webp" style="display:none"/>
+                        <div class="fieldrow">
+                            <div class="field">
+                                <label>Full Name <span>*</span></label>
+                                <input type="text" name="fullName" placeholder="e.g. Zainab Shaikh" data-preview="cv-name" />
+                            </div>
+                            <div class="field">
+                                <label>Student ID <span>*</span></label>
+                                <input type="text" name="studentId" placeholder="e.g. K19-2025" data-preview="cv-id" />
+                            </div>
+                        </div>
+                        <div class="fieldrow">
+                            <div class="field">
+                                <label>Email Address <span>*</span></label>
+                                <input type="email" name="email" placeholder="your@email.com" data-preview="cv-email" />
+                            </div>
+                            <div class="field">
+                                <label>Cell Phone <span>*</span></label>
+                                <input type="tel" name="phone" placeholder="03241234567" data-preview="cv-phone" />
+                            </div>
+                        </div>
+                        <div class="fieldrow">
+                            <div class="field">
+                                <label>CGPA <span>*</span></label>
+                                <input type="text" name="cgpa" placeholder="e.g. 3.56" data-preview="cv-cgpa" />
+                            </div>
+                            <div class="field">
+                                <label>Degree Program <span>*</span></label>
+                                <select name="degreeProgram" data-preview="cv-prog" >
+                                    <option value="">Select program…</option>
+                                    <option>BS Computer Science</option>
+                                    <option>BS Software Engineering</option>
+                                    <option>BS Computer Engineering</option>
+                                    <option>BS Electrical Engineering</option>
+                                    <option>BS Business Analytics</option>
+                                    <option>BS Artificial Intelligence</option>
+                                    <option>BS Financial Technology (fintech)</option>
+                                    <option>BS Cyber Security</option>
+                                    <option>BS Data Science</option>
+                                    <option>MS Computer Science</option>
+                                    <option>MS Data Science</option>
+                                    <option>MS Software Engineering</option>
+                                    <option>MS Artificial Intelligence</option>
+                                    <option>MS Cyber Security</option>
+                                    <option>MS Business Analytics</option>
+                                    <option>MS(SPM)</option>
+                                    <option>MS(CNS)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="fieldrow">
+                            <div class="field">
+                                <label>LinkedIn URL <span>*</span></label>
+                                <input type="text" name="linkedin" placeholder="linkedin.com/in/yourname" data-preview="cv-linkedin"/>
+                            </div>
+                            <div class="field">
+                                <label>Portfolio / Website</label>
+                                <input type="text" name="portfolio" placeholder="yoursite.dev" data-preview="cv-portfolio"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Career Objective <span>*</span></label>
+                            <textarea name="objective" rows="4" data-preview="cv-obj" placeholder="Write 2–3 sentences about your career goals…" ></textarea>
+                        </div>
+                        <div class="navbuttons"><span></span><button type="button" class="btn btnnext" onclick="goStep(2)">Next →</button></div>
+                    </div>
+
+                    <div class="steppage" data-step="2">
+                        <p class="steptitle">Educational Background</p>
+                        <p class="stepdesc">List your degrees from most recent to oldest.</p>
+                        <div class="field">
+                            <label>Educational History <span>*</span></label>
+                            <textarea name="education" rows="6" data-preview="cv-edu" 
+                            placeholder="2019-2023: BS Computer Science: FAST-NUCES Karachi, CGPA 3.56&#10;2017–2019: HSC/A Levels: DHA Suffa College, 87%&#10;2015–2017: SSC/O Levels: The City School, A+"></textarea>
+                            <p class="hint">One entry per line.</p>
+                        </div>
+                        <div class="field">
+                            <label>FYP Title <span>*</span></label>
+                            <input type="text" name="fypTitle" data-preview="cv-fyp-title" placeholder="e.g. AI-Powered Mental Health Chatbot" />
+                        </div>
+                        <div class="field">
+                            <label>FYP Description <span>*</span></label>
+                            <textarea name="fypDesc" rows="3" data-preview="cv-fyp-desc" placeholder="Brief description of your project…" ></textarea>
+                        </div>
+                        <div class="field">
+                            <label>Supervisor's Name <span>*</span></label>
+                            <input type="text" name="fypSupervisor" data-preview="cv-fyp-sup" placeholder="e.g. Dr. Ahmed Raza" />
+                        </div>
+                        <div class="field">
+                            <label>Elective Courses <span>*</span></label>
+                            <input type="text" name="electiveCourses" data-preview="cv-courses" placeholder="Machine Learning, Cloud Computing, Computer Vision" />
+                            <p class="hint">Separate with commas.</p>
+                        </div>
+                        <div class="navbuttons">
+                            <button type="button" class="btn btnback" onclick="goStep(1)">← Back</button>
+                            <button type="button" class="btn btnnext" onclick="goStep(3)">Next →</button>
+                        </div>
+                    </div>
+
+                    <div class="steppage" data-step="3">
+                        <p class="steptitle">Skills &amp; Interests</p>
+                        <p class="stepdesc">Help employers understand what you know.</p>
+                        <div class="field">
+                            <label>Areas of Interest - Select Top 3 <span>*</span></label>
+                            <div class="checkbox-group" id="areas-group">
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Artificial Intelligence"/> Artificial Intelligence
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Web Development"/> Web Development
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Data Science"/> Data Science
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Cybersecurity"/> Cybersecurity
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Cloud Computing"/> Cloud Computing
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Mobile Development"/> Mobile Development
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Game Development"/> Game Development
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Blockchain"/> Blockchain
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="Computer Vision"/> Computer Vision
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="areasOfInterest" value="NLP"/> NLP
+                                </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Technical Skills <span>*</span></label>
+                            <textarea name="technicalSkills" rows="3" data-preview="cv-skills" placeholder="Python&#10;JavaScript&#10;React.js&#10;TensorFlow" ></textarea>
+                            <p class="hint">One skill per line.</p>
+                        </div>
+                        <div class="field">
+                            <label>Personal Skills &amp; Interests <span>*</span></label>
+                            <input type="text" name="personalSkills" data-preview="cv-personal" placeholder="Problem Solving, Team Leadership, Communication" />
+                            <p class="hint">Separate with commas.</p>
+                        </div>
+                        <div class="field">
+                            <label>Certifications</label>
+                            <textarea name="certifications" rows="3" data-preview="cv-certs" placeholder="AWS Cloud Practitioner&#10;Google Data Analytics"></textarea>
+                            <p class="hint">One per line.</p>
+                        </div>
+                        <div class="field">
+                            <label>Academic Honors / Dean's List</label>
+                            <textarea name="honors" rows="3" data-preview="cv-honors" placeholder="Dean's Honor List — Fall 2021&#10;Merit Scholarship 2020–2024"></textarea>
+                            <p class="hint">One per line.</p>
+                        </div>
+                        <div class="navbuttons">
+                            <button type="button" class="btn btnback" onclick="goStep(2)">← Back</button>
+                            <button type="button" class="btn btnnext" onclick="goStep(4)">Next →</button>
+                        </div>
+                    </div>
+
+                    <div class="steppage" data-step="4">
+                        <p class="steptitle">Experience &amp; Leadership</p>
+                        <div class="field">
+                            <label>Internship / Work Experience <span>*</span></label>
+                            <textarea name="internship" rows="6" data-preview="cv-intern" placeholder="Software Engineering Intern - Systems Limited (Summer 2022)&#10;• Developed 12 REST API endpoints&#10;• Reduced page load time by 30%" ></textarea>
+                        </div>
+                        <div class="field">
+                            <label>Leadership &amp; Student Societies <span>*</span></label>
+                            <textarea name="leadership" rows="5" data-preview="cv-leadership"
+                            placeholder="President - FAST Computing Society (2022–2023)&#10;• Led 35-member society" ></textarea>
+                        </div>
+                        <div class="navbuttons">
+                            <button type="button" class="btn btnback" onclick="goStep(3)">← Back</button>
+                            <button type="button" class="btn btnnext" onclick="goStep(5)">Review →</button>
+                        </div>
+                    </div>
+
+                    <div class="steppage" data-step="5">
+                        <p class="steptitle">Review &amp; Submit</p>
+                        <p class="stepdesc">Check the CV preview, then submit when ready.</p>
+                        <div>
+                            <p>Before you submit:</p>
+                            <ul>
+                                <li>All  fields are filled in</li>
+                                <li>Your CGPA is correct</li>
+                                <li>Your email address is correct</li>
+                                <li>Photo has been uploaded (optional but recommended)</li>
+                            </ul>
+                        </div>
+                        <div class="navbuttons">
+                            <button type="button" class="btn btnback" onclick="goStep(4)">← Back</button>
+                            <button type="button" class="btn" onclick="submitForm()">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="successbox" id="success">
+                    <div class="check"> ✔</div>
+                    <h2>Profile Submitted!</h2>
+                    <p>Thank you, <strong id="success-name"></strong>.<br/>Your CV has been received.<br/><br/>You may now close this tab.</p>
+                </div>
             </div>
         </div>
-        <div class="gold-stripe"></div>
-        <button class="previewtoggle" onclick="toggleMobilePreview()">👁 toggle cv preview</button>
-        <div class="mobilepreview" id="mobpreview"></div>
-        <div class="formbody">
-            <div class="stepbar">
-                <button class="step active" data-step="1">1. Personal</button>
-                <button class="step" data-step="2">2. Education</button>
-                <button class="step" data-step="3">3. Skills</button>
-                <button class="step" data-step="4">4. Experience</button>
-                <button class="step" data-step="5">5. Review</button>
-            </div>
-            <div class="progress"><div class="progress-fill" id="progress-fill" style="width:20%;"></div></div>
 
-            <form id="cvform" novalidate>
-            
-                <div class="steppage active" data-step="1">
-                    <p class="steptitle">Personal Information</p>
-                    <p class="stepdesc">This will appear in the header of your CV.</p>
-                    <div class="field">
-                        <label>Passport Photo</label>
-                        <div class="photoupload">
-                            <div class="photopreview" id="photo-preview" onclick="document.getElementById('photoinput').click()">photo here</div>
-                        </div>
-                        <div>
-                            <button type="button" class="upload-btn" onclick="document.getElementById('photoinput').click()">Choose Photo</button>
-                            <p class="hint">JPG or PNG · Max 5 MB</p>
-                        </div>
-                    </div>
-                    <input type="file" id="photoinput" accept="image/jpeg,image/png,image/webp" style="display:none"/>
-                </div>
-                <div class="fieldrow">
-                    <div class="field">
-                        <label>Full Name <span>*</span></label>
-                        <input type="text" name="fullName" placeholder="e.g. Zainab Shaikh" data-preview="cv-name" required/>
-                    </div>
-                    <div class="field">
-                        <label>Student ID <span>*</span></label>
-                        <input type="text" name="studentId" placeholder="e.g. K19-2025" data-preview="cv-id" required/>
-                    </div>
-                </div>
-                <div class="fieldrow">
-                    <div class="field">
-                        <label>Email Address <span>*</span></label>
-                        <input type="email" name="email" placeholder="your@email.com" data-preview="cv-email" required/>
-                    </div>
-                    <div class="field">
-                        <label>Cell Phone <span>*</span></label>
-                        <input type="tel" name="phone" placeholder="03241234567" data-preview="cv-phone" required/>
-                    </div>
-                </div>
-                <div class="fieldrow">
-                    <div class="field">
-                        <label>CGPA <span>*</span></label>
-                        <input type="text" name="cgpa" placeholder="e.g. 3.56" data-preview="cv-cgpa" required/>
-                    </div>
-                    <div class="field">
-                        <label>Degree Program <span>*</span></label>
-                        <select name="degreeProgram" data-preview="cv-prog" required>
-                            <option value="">Select program…</option>
-                            <option>BS Computer Science</option>
-                            <option>BS Software Engineering</option>
-                            <option>BS Computer Engineering</option>
-                            <option>BS Electrical Engineering</option>
-                            <option>BS Business Analytics</option>
-                            <option>BS Artificial Intelligence</option>
-                            <option>BS Financial Technology (fintech)</option>
-                            <option>BS Cyber Security</option>
-                            <option>BS Data Science</option>
-                            <option>MS Computer Science</option>
-                            <option>MS Data Science</option>
-                            <option>MS Software Engineering</option>
-                            <option>MS Artificial Intelligence</option>
-                            <option>MS Cyber Security</option>
-                            <option>MS Business Analytics</option>
-                            <option>MS(SPM)</option>
-                            <option>MS(CNS)</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="fieldrow">
-                    <div class="field">
-                        <label>LinkedIn URL <span>*</span></label>
-                        <input type="text" name="linkedin" placeholder="linkedin.com/in/yourname" data-preview="cv-linkedin"/>
-                    </div>
-                    <div class="field">
-                        <label>Portfolio / Website</label>
-                        <input type="text" name="portfolio" placeholder="yoursite.dev" data-preview="cv-portfolio"/>
-                    </div>
-                </div>
-                <div class="field">
-                    <label>Career Objective <span>*</span></label>
-                    <textarea name="objective" rows="4" data-preview="cv-obj" placeholder="Write 2–3 sentences about your career goals…" required></textarea>
-                </div>
-                <div class="navbuttons"><span></span><button type="button" class="btn btnnext" onclick="goStep(2)">Next →</button></div>
-
-                <div class="steppage" data-step="2">
-                    <p class="steptitle">Educational Background</p>
-                    <p class="stepdesc">List your degrees from most recent to oldest.</p>
-                    <div class="field">
-                    <label>Educational History <span>*</span></label>
-                    <textarea name="education" rows="6" data-preview="cv-edu" required
-                    placeholder="2019-2023: BS Computer Science: FAST-NUCES Karachi, CGPA 3.56&#10;2017–2019: HSC/A Levels: DHA Suffa College, 87%&#10;2015–2017: SSC/O Levels: The City School, A+"></textarea>
-                    <p class="hint">One entry per line.</p>
-                    <div class="field">
-                        <label>FYP Title <span>*</span></label>
-                        <input type="text" name="fypTitle" data-preview="cv-fyp-title" placeholder="e.g. AI-Powered Mental Health Chatbot" required/>
-                    </div>
-                    <div class="field">
-                        <label>FYP Description <span>*</span></label>
-                        <textarea name="fypDesc" rows="3" data-preview="cv-fyp-desc" placeholder="Brief description of your project…" required></textarea>
-                    </div>
-                    <div class="field">
-                        <label>Supervisor's Name <span>*</span></label>
-                        <input type="text" name="fypSupervisor" data-preview="cv-fyp-sup" placeholder="e.g. Dr. Ahmed Raza" required/>
-                    </div>
-                    <div class="field">
-                        <label>Elective Courses <span>*</span></label>
-                        <input type="text" name="electiveCourses" data-preview="cv-courses" placeholder="Machine Learning, Cloud Computing, Computer Vision" required/>
-                        <p class="hint">Separate with commas.</p>
-                    </div>
-                    <div class="navbuttons">
-                        <button type="button" class="btn btnback" onclick="goStep(1)">← Back</button>
-                        <button type="button" class="btn btnnext" onclick="goStep(3)">Next →</button>
-                    </div>
-                </div>
-
-                <div class="steppage" data-step="3">
-                    <p class="steptitle">Skills &amp; Interests</p>
-                    <p class="stepdesc">Help employers understand what you know.</p>
-                    <div class="field">
-                        <label>Areas of Interest - Select Top 3 <span>*</span></label>
-                        <div class="checkbox-group" id="areas-group">
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Artificial Intelligence"/> Artificial Intelligence
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Web Development"/> Web Development
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Data Science"/> Data Science
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Cybersecurity"/> Cybersecurity
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Cloud Computing"/> Cloud Computing
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Mobile Development"/> Mobile Development
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Game Development"/> Game Development
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Blockchain"/> Blockchain
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="Computer Vision"/> Computer Vision
-                            </label>
-                            <label>
-                                <input type="checkbox" name="areasOfInterest" value="NLP"/> NLP
-                            </label>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Technical Skills <span>*</span></label>
-                        <textarea name="technicalSkills" rows="3" data-preview="cv-skills" placeholder="Python&#10;JavaScript&#10;React.js&#10;TensorFlow" required></textarea>
-                        <p class="hint">One skill per line.</p>
-                    </div>
-                    <div class="field">
-                        <label>Personal Skills &amp; Interests <span>*</span></label>
-                        <input type="text" name="personalSkills" data-preview="cv-personal" placeholder="Problem Solving, Team Leadership, Communication" required/>
-                        <p class="hint">Separate with commas.</p>
-                    </div>
-                    <div class="field">
-                        <label>Certifications</label>
-                        <textarea name="certifications" rows="3" data-preview="cv-certs" placeholder="AWS Cloud Practitioner&#10;Google Data Analytics"></textarea>
-                        <p class="hint">One per line.</p>
-                    </div>
-                    <div class="field">
-                        <label>Academic Honors / Dean's List</label>
-                        <textarea name="honors" rows="3" data-preview="cv-honors" placeholder="Dean's Honor List — Fall 2021&#10;Merit Scholarship 2020–2024"></textarea>
-                        <p class="hint">One per line.</p>
-                    </div>
-                    <div class="navbuttons">
-                        <button type="button" class="btn btnback" onclick="goStep(2)">← Back</button>
-                        <button type="button" class="btn btnnext" onclick="goStep(4)">Next →</button>
-                    </div>
-                </div>
-
-                <div class="steppage" data-step="4">
-                    <p class="steptitle">Experience &amp; Leadership</p>
-                    <div class="field">
-                        <label>Internship / Work Experience <span>*</span></label>
-                        <textarea name="internship" rows="6" data-preview="cv-intern" placeholder="Software Engineering Intern - Systems Limited (Summer 2022)&#10;• Developed 12 REST API endpoints&#10;• Reduced page load time by 30%" required></textarea>
-                    </div>
-                    <div class="field">
-                        <label>Leadership &amp; Student Societies <span>*</span></label>
-                        <textarea name="leadership" rows="5" data-preview="cv-leadership"
-                        placeholder="President - FAST Computing Society (2022–2023)&#10;• Led 35-member society" required></textarea>
-                    </div>
-                    <div class="navbuttons">
-                        <button type="button" class="btn btnback" onclick="goStep(3)">← Back</button>
-                        <button type="button" class="btn btnnext" onclick="goStep(5)">Review →</button>
-                    </div>
-                </div>
-
-                <div class="steppage" data-step="5">
-                    <p class="steptitle">Review &amp; Submit</p>
-                    <p class="stepdesc">Check the CV preview, then submit when ready.</p>
-                    <div>
-                        <p>Before you submit:</p>
-                        <ul>
-                            <li>All required fields are filled in</li>
-                            <li>Your CGPA is correct</li>
-                            <li>Your email address is correct</li>
-                            <li>Photo has been uploaded (optional but recommended)</li>
-                        </ul>
-                    </div>
-                    <div class="navbuttons">
-                        <button type="button" class="btn btnback" onclick="goStep(4)">← Back</button>
-                        <button type="button" class="btn" onclick="submitForm()">Submit</button>
-                    </div>
-                </div>
-            </form>
-            <div class="successbox" id="success">
-                <div class="check"> ✔</div>
-                <h2>Profile Submitted!</h2>
-                <p>Thank you, <strong id="success-name"></strong>.<br/>Your CV has been received.<br/><br/>You may now close this tab.</p>
-            </div>
+        <div class="previewpanel" id="desktop-preview">
+            <p class="preview-label">Live CV Preview. updates as you type!</p>
+            <div id="cv-preview-content"></div>
         </div>
     </div>
 
-    
+    <script src="/frontend/js/studentside.js"></script>
     <script src="/frontend/js/form.js"></script>
 </body>
 </html>
