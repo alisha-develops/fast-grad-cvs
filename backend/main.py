@@ -228,7 +228,7 @@ def submit(student: StudentSubmission):
 
 
 @app.get("/admin/preview/{db_id}", response_class=HTMLResponse)
-def preview_student(request: Request, db_id: int, _: None = Depends(require_admin)):
+def preview_student(request: Request, db_id: int, autoprint: int = 0, auth=Depends(require_admin)):
     db = SessionLocal()
     student = db.query(Student).filter(Student.id == db_id).first()
     db.close()
@@ -238,8 +238,8 @@ def preview_student(request: Request, db_id: int, _: None = Depends(require_admi
 
     return templates.TemplateResponse(
         request=request,
-        name="preview.html",
-        context={"student": student, "printable": True}
+        name="cv_preview.html",
+        context={"student": student, "printable": True, "autoprint": autoprint}
     )
 
 @app.post("/upload-photo")

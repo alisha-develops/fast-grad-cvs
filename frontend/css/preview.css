@@ -200,6 +200,16 @@ body {
     margin-top: 8px;
 }
 
+.header-photo {
+    object-fit: cover;
+    border: 1.5px solid #c9a84c;
+}
+
+.header-photo-placeholder {
+    border: 1.5px solid #c9a84c;
+    background: #1a3a5c;
+}
+
 @media print {
     body {
         background: #fff;

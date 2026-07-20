@@ -1,3 +1,9 @@
+if (window.location.search.indexOf("autoprint=1") !== -1) {
+    window.addEventListener("load", function () {
+        window.print();
+    });
+}
+
 function openTrash() {
     document.getElementById("trashbackdrop").classList.add("open");
     document.getElementById("trashwindow").classList.add("open");

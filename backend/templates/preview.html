@@ -36,6 +36,13 @@
                     </div>
                 </div>
                 <div class="header-side">
+                    {% if student.photo_url %}
+                    <img src="{{ student.photo_url }}" class="header-photo" style="width: 56px;
+    height: 66px;"/>
+                    {% else %}
+                    <div class="header-photo-placeholder" style="width: 56px;
+                    height: 66px;"></div>
+                    {% endif %}
                     <div class="cgpa-badge">CGPA {{ student.cgpa }}</div>
                     <p class="header-side-id">{{ student.student_id }}</p>
                 </div>
