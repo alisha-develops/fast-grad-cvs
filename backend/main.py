@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-from backend.core.database import SessionLocal, Base, engine
-from backend.models.student import Student
-from backend.schemas.submission import StudentSubmission
+from backend.database import SessionLocal, Base, engine
+from backend.student_model import Student
+from backend.submission_schema import StudentSubmission
 
 load_dotenv()
 
