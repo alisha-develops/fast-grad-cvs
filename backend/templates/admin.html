@@ -12,6 +12,7 @@
         <span class="brand">FAST NU KHI 2026 graduate directory</span>
         <span class="count">{{ students|length }} submission{{ 's' if students|length != 1 else '' }}</span>
         <a href="/admin/logout" class="logout-link">Sign out</a>
+        <button id="trashopen" class="logout-link trashopenbtn">🗑 Trash</button>
     </div>
     <div class="gold-bar"></div>
 
@@ -67,6 +68,31 @@
             {% endif %}
         </div>
     </div>
+    <div id="trashbackdrop" class="trashbackdrop"></div>
 
+    <div id="trashwindow" class="trashwindow">
+        <div class="trheader">
+            <span class="trtitle">🗑 Trash: Deleted Submissions</span>
+            <button id="trclose" class="trclose">✕</button>
+        </div>
+        <div class="trbody">
+            <table id="trtable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Student ID</th>
+                        <th>Program</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="trashtbody">
+                </tbody>
+            </table>
+            <div id="trashempty" class="trashempty" style="display:none;">Trash is empty.</div>
+        </div>
+    </div>
+
+    <script src="/frontend/js/admin.js"></script>
 </body>
 </html>

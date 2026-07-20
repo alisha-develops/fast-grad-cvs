@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, Boolean
 from backend.database import Base
 
 class Student(Base):
@@ -27,3 +27,5 @@ class Student(Base):
     internship = Column(Text)
     leadership = Column(Text)
     photo_url = Column(String)
+
+    is_deleted = Column(Boolean, default=False)

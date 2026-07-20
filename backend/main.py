@@ -75,24 +75,26 @@ def admin_logout(request: Request):
 
 @app.get("/admin", response_class=HTMLResponse)
 def admin(
-    request:Request,
+    request: Request,
     search: str = None,
     program: str = None,
     auth=Depends(require_admin)
 ):
     db = SessionLocal()
-    query = db.query(Student)
+    query = db.query(Student).filter(Student.is_deleted == False)
+
     if search:
-        search_term = "%"+ search +"%"
+        search_term = "%" + search + "%"
         query = query.filter(
             or_(
                 Student.full_name.ilike(search_term),
                 Student.student_id.ilike(search_term),
-                Student.email.ilike(search_term),
+                Student.email.ilike(search_term)
             )
         )
+
     if program:
-            query = query.filter(Student.degree_program == program)
+        query = query.filter(Student.degree_program == program)
 
     students = query.all()
 
@@ -125,11 +127,40 @@ def delete_student(request: Request, db_id: int, auth=Depends(require_admin)):
         db.close()
         raise HTTPException(status_code=404, detail="Student not found")
 
-    db.delete(student)
+    student.is_deleted = True
     db.commit()
     db.close()
 
     return RedirectResponse(url="/admin", status_code=302)
+
+@app.get("/admin/trash", response_class=HTMLResponse)
+def admin_trash(request: Request, auth=Depends(require_admin)):
+    db = SessionLocal()
+    deleted_students = db.query(Student).filter(Student.is_deleted == True).all()
+    db.close()
+
+    return templates.TemplateResponse(
+        request = request,
+        name="admi_trash.html",
+        context={
+            "students": deleted_students
+        }
+    )
+
+@app.get("/admin/restore/{db_id}")
+def restore_student(request: Request, db_id: int, auth=Depends(require_admin)):
+    db = SessionLocal()
+    student = db.query(Student).filter(Student.id == db_id).first()
+
+    if not student:
+        db.close()
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    student.is_deleted = False
+    db.commit()
+    db.close()
+
+    return RedirectResponse(url="/admin/trash", status_code=302)
 
 def submit(student: StudentSubmission):
     db = SessionLocal()

@@ -174,3 +174,79 @@ td {
 .delete:hover {
     background: #f8d7da;
 }
+
+.trashopenbtn {
+    background: none;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+}
+
+.trashbackdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.trashbackdrop.open {
+    display: block;
+}
+
+.trashwindow {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    max-width: 90%;
+    max-height: 80vh;
+    background: #fff;
+    border-radius: 8px;
+    z-index: 101;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.trashwindow.open {
+    display: flex;
+    flex-direction: column;
+}
+
+.trheader {
+    background: #1a3a5c;
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.trtitle {
+    color: #c9a84c;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.trclose {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.trbody {
+    padding: 1rem 1.2rem;
+    overflow-y: auto;
+}
+
+.trashempty {
+    text-align: center;
+    padding: 2rem;
+    color: #5a7a96;
+}
