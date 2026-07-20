@@ -133,19 +133,23 @@ def delete_student(request: Request, db_id: int, auth=Depends(require_admin)):
 
     return RedirectResponse(url="/admin", status_code=302)
 
-@app.get("/admin/trash", response_class=HTMLResponse)
-def admin_trash(request: Request, auth=Depends(require_admin)):
+@app.get("/admin/trash-data")
+def admin_trash_data(request: Request, auth=Depends(require_admin)):
     db = SessionLocal()
     deleted_students = db.query(Student).filter(Student.is_deleted == True).all()
-    db.close()
 
-    return templates.TemplateResponse(
-        request = request,
-        name="admi_trash.html",
-        context={
-            "students": deleted_students
-        }
-    )
+    result = []
+    for student in deleted_students:
+        result.append({
+            "id": student.id,
+            "full_name": student.full_name,
+            "student_id": student.student_id,
+            "degree_program": student.degree_program,
+            "email": student.email
+        })
+
+    db.close()
+    return result
 
 @app.get("/admin/restore/{db_id}")
 def restore_student(request: Request, db_id: int, auth=Depends(require_admin)):
@@ -160,7 +164,7 @@ def restore_student(request: Request, db_id: int, auth=Depends(require_admin)):
     db.commit()
     db.close()
 
-    return RedirectResponse(url="/admin/trash", status_code=302)
+    return {"message": "Restored"}
 
 def submit(student: StudentSubmission):
     db = SessionLocal()
@@ -199,6 +203,8 @@ def submit(student: StudentSubmission):
         "message": "Saved!",
         "id": new_student.id
     }
+
+
 @app.get("/admin/preview/{db_id}", response_class=HTMLResponse)
 def preview_student(request: Request, db_id: int, _: None = Depends(require_admin)):
     db = SessionLocal()
