@@ -59,7 +59,7 @@ body {
     height:3px;
     background:#c9a84c;
 }
-.form-body {
+.formbody {
     padding:1.5rem 1.8rem;
 }
 
@@ -161,7 +161,7 @@ body {
     margin-top: 3px;
 }
 
-.field-row { 
+.fieldrow { 
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;

@@ -23,3 +23,4 @@ class StudentSubmission(BaseModel):
     honors: Optional[str] = None
     internship: str
     leadership: str
+    photoUrl: Optional[str] = None

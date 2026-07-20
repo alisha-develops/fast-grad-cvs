@@ -6,6 +6,9 @@ from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy import or_
 from dotenv import load_dotenv
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+from fastapi import UploadFile, File
 import os
 
 from backend.database import SessionLocal, Base, engine
@@ -21,10 +24,27 @@ app = FastAPI()
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 SESSION_SECRET = os.getenv("SESSION_SECRET")
 
+CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
+CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
+CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
+
 if not ADMIN_PASSWORD:
     raise RuntimeError("ADMIN_PASSWORD is not set in environment variables")
 if not SESSION_SECRET:
     raise RuntimeError("SESSION_SECRET is not set in environment variables")
+
+if not CLOUDINARY_CLOUD_NAME:
+    raise RuntimeError("CLOUDINARY_CLOUD_NAME is not set in environment variables")
+if not CLOUDINARY_API_KEY:
+    raise RuntimeError("CLOUDINARY_API_KEY is not set in environment variables")
+if not CLOUDINARY_API_SECRET:
+    raise RuntimeError("CLOUDINARY_API_SECRET is not set in environment variables")
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET
+)
 
 app.add_middleware(SessionMiddleware, secret_key = SESSION_SECRET)
 
@@ -166,9 +186,10 @@ def restore_student(request: Request, db_id: int, auth=Depends(require_admin)):
 
     return {"message": "Restored"}
 
+
+@app.post("/submit")
 def submit(student: StudentSubmission):
     db = SessionLocal()
-
     new_student = Student(
         full_name=student.fullName,
         student_id=student.studentId,
@@ -190,7 +211,8 @@ def submit(student: StudentSubmission):
         certifications=student.certifications,
         honors=student.honors,
         internship=student.internship,
-        leadership=student.leadership
+        leadership=student.leadership,
+        photo_url=student.photoUrl
     )
 
     db.add(new_student)
@@ -220,3 +242,22 @@ def preview_student(request: Request, db_id: int, _: None = Depends(require_admi
         context={"student": student, "printable": True}
     )
 
+@app.post("/upload-photo")
+async def upload_photo(photo:UploadFile = File(...)):
+    allowed_types = ["image/jpeg", "image/png", "image/webp"]
+    if photo.content_type not in allowed_types:
+        raise HTTPException(status_code=400, detail="Only JPG, PNG, or WEBP files are allowed")
+
+    file_bytes = await photo.read()
+
+    max_size_bytes = 5 * 1024 * 1024
+    if len(file_bytes) > max_size_bytes:
+        raise HTTPException(status_code=400, detail="Photo must be under 5 MB")
+
+    result = cloudinary.uploader.upload(
+        file_bytes,
+        folder="fast-nu-grad-cvs",
+        resource_type="image"
+    )
+
+    return {"url": result["secure_url"]}

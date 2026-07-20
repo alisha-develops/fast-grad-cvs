@@ -48,13 +48,13 @@ function validateStep(step) {
     return ok;
 }
 
-function previewUpdates(){
-    const allFields = document.querySelectorAll("[name]");
-    allFields.forEach(function(el) {
-        el.addEventListener("input", refreshPreview);
-        el.addEventListener("change", refreshPreview);
-    })
-}
+// function previewUpdates(){
+//     const allFields = document.querySelectorAll("[name]");
+//     allFields.forEach(function(el) {
+//         el.addEventListener("input", refreshPreview);
+//         el.addEventListener("change", refreshPreview);
+//     })
+// }
 
 function markCheckboxes (){
     const areasGroup = document.getElementById('areas-group');
@@ -77,10 +77,12 @@ function markCheckboxes (){
     });
 }
 
-function photoUpload (){
-    const photoInput = document.getElementById("photo-input");
+let uploadedPhotoUrl = null;
 
-    photoInput.addEventListener("change", function (){
+function photoUpload (){
+    const photoInput = document.getElementById("photoinput");
+
+    photoInput.addEventListener("change", async function (){
         const file = this.files[0];
         if (!file) {
             return;
@@ -92,11 +94,32 @@ function photoUpload (){
             photoPreview.innerHTML = '<img src="' + event.target.result + '"/>';
         };
         reader.readAsDataURL(file);
+
+        const uploadData = new FormData();
+        uploadData.append("photo", file);
+
+        try {
+            const response = await fetch("/upload-photo", {
+                method: "POST",
+                body: uploadData
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error("Upload failed");
+            }
+
+            uploadedPhotoUrl = result.url;
+        } catch (err) {
+            alert("Photo upload failed: " + err.message);
+            uploadedPhotoUrl = null;
+        }
     })
 }
 
 function collectFormData() {
-    const form = document.getElementById("cv-form");
+    const form = document.getElementById("cvform");
     const formData = new FormData(form);
     const data = {};
 
@@ -112,6 +135,9 @@ function collectFormData() {
         areaValues.push(box.value);
     });
     data.areasOfInterest = areaValues.join(", ");
+
+    data.photoUrl = uploadedPhotoUrl;
+
     return data;
 }
 
@@ -141,12 +167,12 @@ async function submitForm() {
 
         if (response.ok) {
 
-            document.getElementById("cv-form").style.display = "none";
+            document.getElementById("cvform").style.display = "none";
             document.querySelector(".stepbar").style.display = "none";
             document.querySelector(".progress").style.display = "none";
 
             document.getElementById("success-name").textContent = data.fullName;
-            document.getElementById("successbox").style.display = "block";
+            document.getElementById("success").style.display = "block";
 
         } else {
 
@@ -167,7 +193,7 @@ async function submitForm() {
     }
 }
 
-previewUpdates();
+// previewUpdates();
 markCheckboxes();
 photoUpload();
-refreshPreview();
+// refreshPreview();
