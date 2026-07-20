@@ -38,7 +38,7 @@
                         <div class="field">
                             <label>Passport Photo</label>
                             <div class="photoupload">
-                                <div class="photopreview" id="photo-preview" onclick="document.getElementById('photoinput').click()">photo here</div>
+                                <div class="photopreview" id="photo-preview" onclick="document.getElementById('photoinput').click()" style="font-size: 0.7rem;">photo here</div>
                             </div>
                             <div>
                                 <button type="button" class="upload-btn" onclick="document.getElementById('photoinput').click()">Choose Photo</button>
@@ -228,15 +228,16 @@
                     <div class="steppage" data-step="5">
                         <p class="steptitle">Review &amp; Submit</p>
                         <p class="stepdesc">Check the CV preview, then submit when ready.</p>
-                        <div>
-                            <p>Before you submit:</p>
-                            <ul>
+                        <div class="reviewyours">
+                            <p class="reviewtitle">Before you submit:</p>
+                            <ul class="reviewlist">
                                 <li>All  fields are filled in</li>
                                 <li>Your CGPA is correct</li>
                                 <li>Your email address is correct</li>
                                 <li>Photo has been uploaded (optional but recommended)</li>
                             </ul>
                         </div>
+                        <div id="form-error" class="form-error"></div>
                         <div class="navbuttons">
                             <button type="button" class="btn btnback" onclick="goStep(4)">← Back</button>
                             <button type="button" class="btn" id="submit" onclick="submitForm()">Submit</button>
