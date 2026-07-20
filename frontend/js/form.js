@@ -33,7 +33,7 @@ function goStep(step) {
 }
 
 function validateStep(step) {
-    const page = document.querySelector('.step-page[data-step="' + step + '"]');
+    const page = document.querySelector('.steppage[data-step="' + step + '"]');
     let ok = true;
 
     const requiredFields = page.querySelectorAll("[required]");
@@ -49,7 +49,7 @@ function validateStep(step) {
 }
 
 function previewUpdates(){
-    const allFields = document.querySelectorAll("[name");
+    const allFields = document.querySelectorAll("[name]");
     allFields.forEach(function(el) {
         el.addEventListener("input", refreshPreview);
         el.addEventListener("change", refreshPreview);
@@ -100,7 +100,7 @@ function collectFormData() {
     const formData = new FormData(form);
     const data = {};
 
-    FormData.forEach(function(value, key) {
+    formData.forEach(function(value, key) {
         if (key !== "areasOfInterest") {
             data[key] = value;
         }

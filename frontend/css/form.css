@@ -418,7 +418,7 @@ body {
         font-family: 'Outfit', sans-serif;
     }
 
-    .mobile-preview.open {
+    .mobilepreview.open {
         display: block;
         background: #d6dce4;
         padding: 1rem;
