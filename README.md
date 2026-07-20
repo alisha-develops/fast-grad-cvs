@@ -23,7 +23,7 @@ i created this to support the career services department at [FAST NUCES Karachi]
 
 earlier in development, i split the backend folder into `core/`, `models/`, and
 `schemas/` subfolders. but as the project grew, each of those folders ended up holding exactly one file so the separation wasn't actually organizing anything yet - it was structure
-without content to justify it. today (7-july-2026), i flattened them into the `backend/` root directly (`database.py`, `student_model.py`, `submission_schema.py`), using
+without content to justify it. today (20-july-2026), i flattened them into the `backend/` root directly (`database.py`, `student_model.py`, `submission_schema.py`), using
 suffixes instead of folder names to keep each file's role clear (and ofc to make it easier for reviewers).
 
 i'm keeping this note because i think it's worth yapping about that you don't always know the right structure for a project on day one. building with time gives you more perspective so you see what you actually reach for, what stays empty scaffolding, and what genuinely needs separating once real complexity shows up. if this project grows to include more models (e.g. an
