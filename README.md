@@ -39,7 +39,7 @@ their submitted cv (or have an admin preview it) after submission. adding the li
 the admin dashboard at `/admin` requires a password, managed via the
 `ADMIN_PASSWORD` environment variable and not included in this repository.
 
-[here](https://youtu.be/lYwLreLOLP4) i have attached a demo video that shows the admin panel completely in action including search/filter,
+[here]([https://youtu.be/lYwLreLOLP4](https://youtu.be/ivvdjXm5XIY)) i have attached a demo video that shows the admin panel completely in action including search/filter,
 cv preview, print, delete, and restore without requiring login access. **if you still would like to try the live dashboard yourself then pls reach me out on slack:  @Alisha**! and if you choose to try it yourself, i will change the password after review as i plan to migrate real submissions and i have to keep students data secure.
 
 
