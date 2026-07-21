@@ -250,3 +250,47 @@ td {
     padding: 2rem;
     color: #5a7a96;
 }
+
+.btn-preview,
+.btn-print,
+.delete {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-right: 6px;
+}
+
+.btn-preview {
+    border: 1px solid #1a3a5c;
+    color: #1a3a5c;
+    background: transparent;
+}
+
+.btn-preview:hover {
+    background: #1a3a5c;
+    color: #fff;
+}
+
+.btn-print {
+    border: 1px solid #c9a84c;
+    color: #8a6d1f;
+    background: #fdf8ed;
+}
+
+.btn-print:hover {
+    background: #c9a84c;
+    color: #1a2a3a;
+}
+
+.delete {
+    border: 1px solid #f0c0c0;
+    color: #c0392b;
+    background: #fdf0f0;
+}
+
+.delete:hover {
+    background: #f8d7da;
+}

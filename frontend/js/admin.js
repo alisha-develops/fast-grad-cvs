@@ -1,9 +1,3 @@
-if (window.location.search.indexOf("autoprint=1") !== -1) {
-    window.addEventListener("load", function () {
-        window.print();
-    });
-}
-
 function openTrash() {
     document.getElementById("trashbackdrop").classList.add("open");
     document.getElementById("trashwindow").classList.add("open");
@@ -15,7 +9,7 @@ function closeTrash() {
 }
 
 async function loadTrash() {
-    const response = await fetch("/admin/trashdata");
+    const response = await fetch("/admin/trash-data");
     const students = await response.json();
 
     const tbody = document.getElementById("trashtbody");
@@ -26,7 +20,7 @@ async function loadTrash() {
 
     if (students.length === 0) {
         table.style.display = "none";
-        emptyMsg.style.display = "block";
+        empty.style.display = "block";
         return;
     }
 
@@ -71,7 +65,7 @@ async function loadTrash() {
 }
 
 async function restoreStudent(dbId) {
-    await fetch("/admin/restore"+ dbId, { method: "POST" });
+    await fetch("/admin/restore/"+ dbId, { method: "POST" });
     loadTrash();
     window.location.reload();
 }

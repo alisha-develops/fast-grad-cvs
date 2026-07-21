@@ -59,7 +59,7 @@
                         <td>{{ student.email }}</td>
                         <td>
                             <a href="/admin/preview/{{ student.id }}" target="_blank" class="btn-preview">Preview</a>
-                            <a href="/admin/preview/{{ student.id }}?autoprint=1" target="_blank" class="btn-preview">Print</a>
+                            <a href="/admin/preview/{{ student.id }}?autoprint=1" target="_blank" class="btn-print">Print</a>
                             <a href="/admin/delete/{{ student.id }}" class="delete" onclick="return confirm('Delete this student\'s profile? This cannot be undone.');">Delete</a>
                         </td>
                     </tr>

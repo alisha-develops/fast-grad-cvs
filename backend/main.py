@@ -171,7 +171,7 @@ def admin_trash_data(request: Request, auth=Depends(require_admin)):
     db.close()
     return result
 
-@app.get("/admin/restore/{db_id}")
+@app.post("/admin/restore/{db_id}")
 def restore_student(request: Request, db_id: int, auth=Depends(require_admin)):
     db = SessionLocal()
     student = db.query(Student).filter(Student.id == db_id).first()
@@ -238,7 +238,7 @@ def preview_student(request: Request, db_id: int, autoprint: int = 0, auth=Depen
 
     return templates.TemplateResponse(
         request=request,
-        name="cv_preview.html",
+        name="preview.html",
         context={"student": student, "printable": True, "autoprint": autoprint}
     )
 
