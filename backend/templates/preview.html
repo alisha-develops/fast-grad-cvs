@@ -21,7 +21,7 @@
             <div class="header-row">
                 <div class="header-gold-edge"></div>
                 <div class="header-text">
-                    <p class="header-eyebrow">FAST – National University of Computer &amp; Emerging Sciences · Karachi</p>
+                    <p class="header-eyebrow">FAST  National University of Computer &amp; Emerging Sciences · Karachi</p>
                     <h1 class="header-name">{{ student.full_name }}</h1>
                     <p class="header-meta">{{ student.degree_program or 'BS Computer Science' }} &nbsp;·&nbsp; Student ID: {{ student.student_id }}</p>
                     <div class="header-contacts">
@@ -37,10 +37,9 @@
                 </div>
                 <div class="header-side">
                     {% if student.photo_url %}
-                    <img src="{{ student.photo_url }}" class="header-photo" style="width: 56px; height: 66px;"/>
+                    <img src="{{ student.photo_url }}" class="header-photo"/>
                     {% else %}
-                    <div class="header-photo-placeholder" style="width: 56px;
-                    height: 66px;"></div>
+                    <div class="header-photo-placeholder"></div>
                     {% endif %}
                     <div class="cgpa-badge">CGPA {{ student.cgpa }}</div>
                     <p class="header-side-id">{{ student.student_id }}</p>
@@ -50,69 +49,123 @@
         <div class="gold-bar"></div>
 
         <div class="cv-body">
-            {% if student.objective %}
-            <div class="section">
-                <p class="sec-title">Career Objective</p>
-                <div class="obj-box">
-                    <p class="obj-text">{{ student.objective }}</p>
+            <div class="sidebar">
+
+                {% if student.areas_of_interest %}
+                <div class="section">
+                    <p class="sec-title">Areas of Interest</p>
+                    {% for item in student.areas_of_interest.split(',') %}
+                    <span class="pill">{{ item.strip() }}</span>
+                    {% endfor %}
                 </div>
+                {% endif %}
+
+                {% if student.technical_skills %}
+                <div class="section">
+                    <p class="sec-title">Technical Skills</p>
+                    {% for item in student.technical_skills.split('\n') %}
+                        {% if item.strip() %}
+                        <span class="tag">{{ item.strip() }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if student.personal_skills %}
+                <div class="section">
+                    <p class="sec-title">Personal Skills</p>
+                    {% for item in student.personal_skills.split(',') %}
+                    <span class="tag">{{ item.strip() }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if student.certifications %}
+                <div class="section">
+                    <p class="sec-title">Certifications</p>
+                    {% for item in student.certifications.split('\n') %}
+                        {% if item.strip() %}
+                        <div class="cert-item">✦ {{ item.strip() }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if student.elective_courses %}
+                <div class="section">
+                    <p class="sec-title">Elective Courses</p>
+                    {% for item in student.elective_courses.split(',') %}
+                    <span class="tag">{{ item.strip() }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if student.honors %}
+                <div class="section">
+                    <p class="sec-title">Academic Honors</p>
+                    {% for item in student.honors.split('\n') %}
+                        {% if item.strip() %}
+                        <div class="honor-item">{{ item.strip() }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
             </div>
-            {% endif %}
-        </div>
-        <div class="section">
-            <p class="sec-title">Education</p>
-            <p class="obj-text">{{ student.education }}</p>
-        </div>
 
-        <div class="section">
-            <p class="sec-title">Final Year Project</p>
-            <p class="obj-text"><strong>{{ student.fyp_title }}</strong></p>
-            <p class="obj-text">{{ student.fyp_desc }}</p>
-            <p class="obj-text">Supervisor: {{ student.fyp_supervisor }}</p>
-        </div>
+            <div class="main">
 
-        <div class="section">
-            <p class="sec-title">Elective Courses</p>
-            <p class="obj-text">{{ student.elective_courses }}</p>
-        </div>
+                {% if student.objective %}
+                <div class="section">
+                    <p class="sec-title">Career Objective</p>
+                    <div class="obj-box">
+                        <p class="obj-text">{{ student.objective }}</p>
+                    </div>
+                </div>
+                {% endif %}
 
-        <div class="section">
-            <p class="sec-title">Areas of Interest</p>
-            <p class="obj-text">{{ student.areas_of_interest }}</p>
-        </div>
+                {% if student.education %}
+                <div class="section">
+                    <p class="sec-title">Education</p>
+                    <p class="eb">{{ student.education }}</p>
+                </div>
+                {% endif %}
 
-        <div class="section">
-            <p class="sec-title">Technical Skills</p>
-            <p class="obj-text">{{ student.technical_skills }}</p>
-        </div>
+                {% if student.fyp_title %}
+                <div class="section">
+                    <p class="sec-title">Final Year Project</p>
+                    <div class="thesis-box">
+                        <p class="thesis-label">Project Title</p>
+                        <p class="thesis-title">"{{ student.fyp_title }}"</p>
+                        {% if student.fyp_desc %}
+                        <p class="eb" style="margin-top:6px;">{{ student.fyp_desc }}</p>
+                        {% endif %}
+                        {% if student.fyp_supervisor %}
+                        <p class="thesis-sup">Supervisor: {{ student.fyp_supervisor }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
 
-        <div class="section">
-            <p class="sec-title">Personal Skills</p>
-            <p class="obj-text">{{ student.personal_skills }}</p>
-        </div>
+                {% if student.internship %}
+                <div class="section">
+                    <p class="sec-title">Internship &amp; Work Experience</p>
+                    <p class="eb">{{ student.internship }}</p>
+                </div>
+                {% endif %}
 
-        <div class="section">
-            <p class="sec-title">Certifications</p>
-            <p class="obj-text">{{ student.certifications }}</p>
-        </div>
+                {% if student.leadership %}
+                <div class="section">
+                    <p class="sec-title">Leadership &amp; Student Engagement</p>
+                    <p class="eb">{{ student.leadership }}</p>
+                </div>
+                {% endif %}
 
-        <div class="section">
-            <p class="sec-title">Academic Honors</p>
-            <p class="obj-text">{{ student.honors }}</p>
-        </div>
-
-        <div class="section">
-            <p class="sec-title">Internship &amp; Work Experience</p>
-            <p class="obj-text">{{ student.internship }}</p>
-        </div>
-
-        <div class="section">
-            <p class="sec-title">Leadership</p>
-            <p class="obj-text">{{ student.leadership }}</p>
+            </div>
         </div>
 
         <div class="footer">
-            <span class="footer-left">FAST–NUCES · KARACHI CAMPUS · GRADUATE PROFILES 2026</span>
+            <span class="footer-left">FAST NUCES · KARACHI CAMPUS · GRADUATE PROFILES 2026</span>
             <span class="footer-right">{{ (student.degree_program or 'BS COMPUTER SCIENCE').upper() }}</span>
         </div>
     </div>
