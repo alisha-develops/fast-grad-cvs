@@ -79,10 +79,10 @@ function markCheckboxes (){
 
 let uploadedPhotoUrl = null;
 
-function photoUpload (){
+function photoUpload() {
     const photoInput = document.getElementById("photoinput");
 
-    photoInput.addEventListener("change", function (){
+    photoInput.addEventListener("change", function () {
         const file = this.files[0];
         if (!file) {
             return;
@@ -98,8 +98,26 @@ function photoUpload (){
             cvPhoto.style.display = "block";
         };
         reader.readAsDataURL(file);
-    })
+
+        const formData = new FormData();
+        formData.append("photo", file);
+
+        fetch("/upload-photo", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            uploadedPhotoUrl = data.url; 
+            console.log("Photo uploaded:", uploadedPhotoUrl);
+        })
+        .catch(err => {
+            console.error("Photo upload failed:", err);
+        });
+    });
 }
+
+photoUpload();
 
 function collectFormData() {
     const form = document.getElementById("cvform");
