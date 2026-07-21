@@ -294,3 +294,55 @@ td {
 .delete:hover {
     background: #f8d7da;
 }
+
+.filter-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    border: 1px solid #d0dae4;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: 'Outfit', sans-serif;
+    color: #1a3a5c;
+    min-width: 200px;
+}
+
+.filter-select {
+    border: 1px solid #d0dae4;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: 'Outfit', sans-serif;
+    color: #1a3a5c;
+    background: #fff;
+}
+
+.btn-search {
+    background: #1a3a5c;
+    color: #fff;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+}
+
+.btn-search:hover {
+    background: #153050;
+}
+
+.clear-link {
+    font-size: 11px;
+    color: #5a7a96;
+    text-decoration: none;
+}
+
+.clear-link:hover {
+    text-decoration: underline;
+}
