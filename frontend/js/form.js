@@ -82,7 +82,7 @@ let uploadedPhotoUrl = null;
 function photoUpload (){
     const photoInput = document.getElementById("photoinput");
 
-    photoInput.addEventListener("change", async function (){
+    photoInput.addEventListener("change", function (){
         const file = this.files[0];
         if (!file) {
             return;
@@ -92,29 +92,12 @@ function photoUpload (){
         reader.onload = function (event) {
             const photoPreview = document.getElementById("photo-preview");
             photoPreview.innerHTML = '<img src="' + event.target.result + '"/>';
+
+            const cvPhoto = document.getElementById("cv-photo");
+            cvPhoto.src = event.target.result;
+            cvPhoto.style.display = "block";
         };
         reader.readAsDataURL(file);
-
-        const uploadData = new FormData();
-        uploadData.append("photo", file);
-
-        try {
-            const response = await fetch("/upload-photo", {
-                method: "POST",
-                body: uploadData
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error("Upload failed");
-            }
-
-            uploadedPhotoUrl = result.url;
-        } catch (err) {
-            alert("Photo upload failed: " + err.message);
-            uploadedPhotoUrl = null;
-        }
     })
 }
 
