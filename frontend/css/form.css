@@ -11,17 +11,31 @@ body {
     background: #e8edf3;
 }
 
-.left {
+/* .left {
     display:grid;
     grid-template-columns:1fr 1fr;
     height:100vh;
     overflow:hidden;
+} */
+
+.left {
+    height: 100vh;
+    overflow-y: auto;
 }
+
+/* .formpanel {
+    height: 100vh;
+    background-color: #e8edf3;
+    overflow-y: auto;
+} */
 
 .formpanel {
     height: 100vh;
     background-color: #e8edf3;
     overflow-y: auto;
+    max-width: 700px;
+    margin: 2rem auto;
+    border: 2px solid #0b1f33;
 }
 
 .formheader{

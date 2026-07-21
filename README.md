@@ -4,6 +4,18 @@ i created this to support the career services department at [FAST NUCES Karachi]
 
 > note: this is the version 2! i did make a version 1 that has 500 submissions already, but first version proved the concept but wasn't designed for long term scalability. as the number of real student submissions grew(and is still growing), it became difficult to maintain and lacked a robust backend. v2 rebuilds the platform with a proper backend architecture.
 
+## project itself + known limitation
+
+v1 included a live updating cv
+preview panel that showed students what their cv would look like as they
+typed. i attempted to rebuild this for v2 (even used claude for it), to match the visiblity of the
+admin side cv template, but ran into persistent styling issues i wasn't able to resolve within a reasonable time and i did not want to use claude for **complete** ready to paste generation to avoid going further 30% ai limit. and rather than keep debugging a
+non essential feature at the cost of everything else, i just decided to
+remove it for this release.
+
+students currently fill out the form without a live preview and can view
+their submitted cv (or have an admin preview it) after submission. adding the live preview back likely with a cleaner approach, matching the cv template more directly is planned as a future update, alongside the v1-to-v2 data migration.
+
 <table border="1" cellpadding="12" cellspacing="0">
   <tr>
     <th align="left">ai usage</th>
@@ -11,7 +23,7 @@ i created this to support the career services department at [FAST NUCES Karachi]
   </tr>
   <tr>
     <td valign="top" width="65%">
-      <code>livepreview.js</code> and <code>preview.css</code> (livepreview.css almost also uses the same code) were mostly generated with claude's help, based on a design carried over and adapted from an earlier prototype (v1) of this tool. the final template(showed in picture) was approved by my sister before being used for actual graduate submissions, so i had the code generated to match that approved design. however generated file was really messy so i had to make some modifications.<br>
+      <code>preview.css</code> was mostly generated with claude's help, based on a design carried over and adapted from an earlier prototype (v1) of this tool. the final template(showed in picture) was approved by my sister before being used for actual graduate submissions, so i had the code generated to match that approved design. however generated file was really messy so i had to make some modifications. claude was also used for debugging in some other parts of code in different files as well expecially <code>templates/</code> folder <br>
       note: i also pasted some code directly from the previous version (v1) where i needed to match its structure and mainly frontend :)
     </td>
     <td align="center" width="35%">
