@@ -88,6 +88,7 @@ body {
 
 .step {
     flex:1;
+    min-width: 0;
     padding: 8px 4px; 
     background: #f2f5f8;
     border:none;
@@ -408,11 +409,13 @@ body {
     }
 
     .formpanel {
+        height: auto;
         overflow-y: visible;
         min-height: 100vh;
+        margin: 20px;
     }
 
-    .field-row{
+    .fieldrow{
         grid-template-columns: 1fr;
     }
 
