@@ -41,6 +41,7 @@ pydantic==2.7.1
 pydantic_core==2.18.2
 pydyf==0.12.1
 Pygments==2.20.0
+pymongo==4.17.0
 pyphen==0.17.2
 python-dotenv==1.0.1
 python-jose==3.3.0
