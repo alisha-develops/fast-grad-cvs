@@ -52,11 +52,44 @@ body {
 .card-header {
     padding: 0.9rem 1.2rem;
     border-bottom: 1px solid #e8eef5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.6rem;
 }
 
 .card-title {
     font-size: 14px;
     font-weight: 600;
+    white-space: nowrap;
+}
+
+.header-right-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.stats-inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 12px;
+    color: #5a7a96;
+    white-space: nowrap;
+}
+
+.stats-inline .stat-item strong {
+    color: #1a3a5c;
 }
 
 table {
@@ -293,13 +326,6 @@ td {
 
 .delete:hover {
     background: #f8d7da;
-}
-
-.filter-form {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
 }
 
 .search-input {

@@ -33,13 +33,13 @@
                     <a href="/admin" class="clear-link">Clear</a>
                     {% endif %}
                 </form>
-            </div>
-            <div class="stats-bar">
-                <span class="stat-item">Total: <strong>{{ all_students_count }}</strong></span>
-                <span class="stat-item">Matching filter: <strong>{{ total_matching }}</strong></span>
-                <span class="stat-item">BS: <strong>{{ bs_count }}</strong></span>
-                <span class="stat-item">MS: <strong>{{ ms_count }}</strong></span>
-                <span class="stat-item">Page {{ page }} of {{ total_pages }}</span>
+                <div class="stats-bar">
+                    <span class="stat-item">Total: <strong>{{ all_students_count }}</strong></span>
+                    <span class="stat-item">Matching filter: <strong>{{ total_matching }}</strong></span>
+                    <span class="stat-item">BS: <strong>{{ bs_count }}</strong></span>
+                    <span class="stat-item">MS: <strong>{{ ms_count }}</strong></span>
+                    <span class="stat-item">Page {{ page }} of {{ total_pages }}</span>
+                </div>
             </div>
 
             {% if students|length == 0 %}
