@@ -34,6 +34,13 @@
                     {% endif %}
                 </form>
             </div>
+            <div class="stats-bar">
+                <span class="stat-item">Total: <strong>{{ all_students_count }}</strong></span>
+                <span class="stat-item">Matching filter: <strong>{{ total_matching }}</strong></span>
+                <span class="stat-item">BS: <strong>{{ bs_count }}</strong></span>
+                <span class="stat-item">MS: <strong>{{ ms_count }}</strong></span>
+                <span class="stat-item">Page {{ page }} of {{ total_pages }}</span>
+            </div>
 
             {% if students|length == 0 %}
             <div class="empty">No submissions found.</div>
@@ -66,6 +73,17 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="pagination">
+                {% if page > 1 %}
+                <a href="/admin?page={{ page - 1 }}{% if search %}&search={{ search }}{% endif %}{% if selected_program %}&program={{ selected_program }}{% endif %}" class="page-link">← Previous</a>
+                {% endif %}
+
+                <span class="page-current">Page {{ page }} of {{ total_pages }}</span>
+
+                {% if page < total_pages %}
+                <a href="/admin?page={{ page + 1 }}{% if search %}&search={{ search }}{% endif %}{% if selected_program %}&program={{ selected_program }}{% endif %}" class="page-link">Next →</a>
+                {% endif %}
+            </div>
             {% endif %}
         </div>
     </div>

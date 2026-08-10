@@ -98,9 +98,13 @@ def admin(
     request: Request,
     search: str = None,
     program: str = None,
+    page: int = 1,
     auth=Depends(require_admin)
 ):
     db = SessionLocal()
+
+    page_size = 25
+
     query = db.query(Student).filter(Student.is_deleted == False)
 
     if search:
@@ -116,7 +120,28 @@ def admin(
     if program:
         query = query.filter(Student.degree_program == program)
 
-    students = query.all()
+    total_matching = query.count()
+
+    bs_count = query.filter(Student.degree_program.ilike("BS%")).count()
+    ms_count = query.filter(Student.degree_program.ilike("MS%")).count()
+
+    total_pages = total_matching // page_size
+    if total_matching % page_size != 0:
+        total_pages = total_pages + 1
+
+    if total_pages == 0:
+        total_pages = 1
+
+    if page < 1:
+        page = 1
+    if page > total_pages:
+        page = total_pages
+
+    offset_amount = (page - 1) * page_size
+
+    students = query.offset(offset_amount).limit(page_size).all()
+
+    all_students_count = db.query(Student).filter(Student.is_deleted == False).count()
 
     all_programs = db.query(Student.degree_program).distinct().all()
     program_list = []
@@ -134,7 +159,14 @@ def admin(
             "students": students,
             "programs": program_list,
             "search": search or "",
-            "selected_program": program or ""
+            "selected_program": program or "",
+            "page": page,
+            "total_pages": total_pages,
+            "total_matching": total_matching,
+            "all_students_count": all_students_count,
+            "bs_count": bs_count,
+            "ms_count": ms_count,
+            "page_size": page_size
         }
     )
 

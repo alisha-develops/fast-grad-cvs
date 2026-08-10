@@ -346,3 +346,44 @@ td {
 .clear-link:hover {
     text-decoration: underline;
 }
+
+.stats-bar {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0.8rem 1.2rem;
+    background: #f7f9fb;
+    border-bottom: 1px solid #e8eef5;
+    font-size: 12px;
+    color: #5a7a96;
+}
+
+.stat-item strong {
+    color: #1a3a5c;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.page-link {
+    background: #1a3a5c;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.page-link:hover {
+    background: #153050;
+}
+
+.page-current {
+    font-size: 12px;
+    color: #5a7a96;
+}
