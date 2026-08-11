@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime
 from backend.database import Base
 
 class Student(Base):
@@ -29,3 +29,4 @@ class Student(Base):
     photo_url = Column(String)
 
     is_deleted = Column(Boolean, default=False)
+    source_submitted_at = Column(DateTime, nullable=True)
