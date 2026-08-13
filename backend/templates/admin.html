@@ -21,8 +21,8 @@
             <div class="card-header">
                 <span class="card-title">Graduate Submissions</span>
                 <form method="GET" action="/admin" class="filter-form">
-                    <input type="text" name="search" placeholder="Search name, ID, or email..." value="{{ search }}" class="search-input"/>
-                    <select name="program" class="filter-select" onchange="this.form.submit()">
+                    <input type="text" id="search-input" name="search" placeholder="Search name, ID, or email..." value="{{ search }}" class="search-input"/>
+                    <select id="filter-select" name="program" class="filter-select" onchange="this.form.submit()">
                         <option value="">All Programs</option>
                         {% for p in programs %}
                         <option value="{{ p }}" {{ 'selected' if p == selected_program else '' }}>{{ p }}</option>
@@ -40,6 +40,10 @@
                     <span class="stat-item">MS: <strong>{{ ms_count }}</strong></span>
                     <span class="stat-item">Page {{ page }} of {{ total_pages }}</span>
                 </div>
+                <div class="export-bar">
+                    <button id="export-button" class="export-button-hidden">Export 0 CVs</button>
+                    <button id="select-all-matching-btn">Select all </button>
+                </div>
             </div>
 
             {% if students|length == 0 %}
@@ -48,6 +52,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th><input type="checkbox" class="select-all-checkbox"></th>
                         <th>Name</th>
                         <th>Student ID</th>
                         <th>Program</th>
@@ -59,6 +64,7 @@
                 <tbody>
                     {% for student in students %}
                     <tr>
+                        <td><input type="checkbox" class="student-checkbox" value="{{ student.id }}"></td>
                         <td><strong>{{ student.full_name }}</strong></td>
                         <td>{{ student.student_id }}</td>
                         <td>{{ student.degree_program or '—' }}</td>

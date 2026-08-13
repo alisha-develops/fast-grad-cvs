@@ -170,6 +170,34 @@ def admin(
         }
     )
 
+@app.get("/admin/matching-ids")
+def matching_ids(request: Request, search: str = None, program: str = None, auth=Depends(require_admin)):
+    db = SessionLocal()
+
+    query = db.query(Student.id).filter(Student.is_deleted == False)
+
+    if search:
+        search_term = "%" + search + "%"
+        query = query.filter(
+            or_(
+                Student.full_name.ilike(search_term),
+                Student.student_id.ilike(search_term),
+                Student.email.ilike(search_term)
+            )
+        )
+
+    if program:
+        query = query.filter(Student.degree_program == program)
+
+    rows = query.all()
+    db.close()
+
+    id_list = []
+    for row in rows:
+        id_list.append(row[0])
+
+    return id_list
+
 @app.get("/admin/delete/{db_id}")
 def delete_student(request: Request, db_id: int, auth=Depends(require_admin)):
     db = SessionLocal()
@@ -272,6 +300,51 @@ def preview_student(request: Request, db_id: int, autoprint: int = 0, auth=Depen
         request=request,
         name="preview.html",
         context={"student": student, "printable": True, "autoprint": autoprint}
+    )
+
+@app.get("/admin/export-cvs", response_class=HTMLResponse)
+def export_cvs(
+    request: Request,
+    ids: str = None,
+    search: str = None,
+    program: str = None,
+    auth=Depends(require_admin)
+):
+    db = SessionLocal()
+
+    if ids:
+        id_list = ids.split(",")
+        int_id_list = []
+        for id_string in id_list:
+            int_id_list.append(int(id_string))
+        students = db.query(Student).filter(Student.id.in_(int_id_list)).all()
+    else:
+        query = db.query(Student).filter(Student.is_deleted == False)
+
+        if search:
+            search_term = "%" + search + "%"
+            query = query.filter(
+                or_(
+                    Student.full_name.ilike(search_term),
+                    Student.student_id.ilike(search_term),
+                    Student.email.ilike(search_term)
+                )
+            )
+
+        if program:
+            query = query.filter(Student.degree_program == program)
+
+        students = query.all()
+
+    db.close()
+
+    if len(students) == 0:
+        raise HTTPException(status_code=404, detail="No students found")
+
+    return templates.TemplateResponse(
+        request=request,
+        name="combined_cv.html",
+        context={"students": students}
     )
 
 @app.post("/upload-photo")

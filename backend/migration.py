@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import cloudinary
@@ -24,7 +25,7 @@ cloudinary.config(
     api_secret=CLOUDINARY_API_SECRET
 )
 
-DRY_RUN = False
+DRY_RUN = True
 
 
 def get_value(doc, key):
@@ -63,7 +64,7 @@ def upload_photo_if_present(doc, full_name, dry_run):
         return None
 
 
-def fix_duplicates():
+def sync_from_v1():
     mongo_client = MongoClient(MONGO_URI)
     mongo_db = mongo_client["fastnu_cv_tool"]
     submissions_collection = mongo_db["submissions"]
@@ -73,30 +74,23 @@ def fix_duplicates():
     print("DRY_RUN is set to " + str(DRY_RUN))
     print("")
 
-    duplicated_ids_cursor = submissions_collection.aggregate([
-        {"$group": {"_id": "$studentId", "count": {"$sum": 1}}},
-        {"$match": {"count": {"$gt": 1}}}
-    ])
+    all_student_ids_cursor = submissions_collection.distinct("studentId")
 
-    duplicated_student_ids = []
-    for row in duplicated_ids_cursor:
-        duplicated_student_ids.append(row["_id"])
-
-    print("Found " + str(len(duplicated_student_ids)) + " student IDs with duplicate submissions.")
-    print("")
-
-    fixed_count = 0
+    new_count = 0
+    updated_count = 0
+    unchanged_count = 0
     error_count = 0
 
-    for student_id in duplicated_student_ids:
+    for student_id in all_student_ids_cursor:
         if not student_id:
             continue
 
-        newest_doc = submissions_collection.find(
-            {"studentId": student_id}
-        ).sort("submittedAt", -1).limit(1)
+        newest_doc = list(
+            submissions_collection.find({"studentId": student_id})
+            .sort("submittedAt", -1)
+            .limit(1)
+        )
 
-        newest_doc = list(newest_doc)
         if not newest_doc:
             continue
 
@@ -104,19 +98,31 @@ def fix_duplicates():
         full_name = get_value(newest_doc, "fullName")
 
         if not full_name:
-            print("SKIPPING " + student_id + " (newest doc missing fullName)")
             continue
+
+        v1_submitted_at = newest_doc.get("submittedAt")
 
         try:
             existing = db.query(Student).filter(Student.student_id == student_id).first()
 
+            if existing and existing.source_submitted_at is not None:
+                existing_ts = existing.source_submitted_at
+                if existing_ts.tzinfo is None:
+                    existing_ts = existing_ts.replace(tzinfo=timezone.utc)
+
+                if v1_submitted_at and v1_submitted_at <= existing_ts:
+                    unchanged_count = unchanged_count + 1
+                    continue
+
             if existing:
-                print("REPLACING: " + full_name + " (" + student_id + ") - deleting old row, id=" + str(existing.id))
+                print("UPDATING: " + full_name + " (" + student_id + ")")
                 if not DRY_RUN:
                     db.delete(existing)
                     db.commit()
+                updated_count = updated_count + 1
             else:
-                print("INSERTING NEW: " + full_name + " (" + student_id + ")")
+                print("NEW FROM V1: " + full_name + " (" + student_id + ")")
+                new_count = new_count + 1
 
             photo_url = upload_photo_if_present(newest_doc, full_name, DRY_RUN)
 
@@ -143,17 +149,16 @@ def fix_duplicates():
                 internship=get_value(newest_doc, "internship"),
                 leadership=get_value(newest_doc, "leadership"),
                 photo_url=photo_url,
-                is_deleted=False
+                is_deleted=False,
+                source_submitted_at=v1_submitted_at
             )
 
             if not DRY_RUN:
                 db.add(new_student)
                 db.commit()
 
-            fixed_count = fixed_count + 1
-
         except Exception as e:
-            print("ERROR fixing " + student_id + ": " + str(e))
+            print("ERROR syncing " + student_id + ": " + str(e))
             db.rollback()
             error_count = error_count + 1
 
@@ -161,14 +166,15 @@ def fix_duplicates():
     mongo_client.close()
 
     print("")
-    print("=== Fix Summary ===")
-    print("Fixed: " + str(fixed_count))
+    print("=== Sync Summary ===")
+    print("New from v1: " + str(new_count))
+    print("Updated (newer version found): " + str(updated_count))
+    print("Unchanged (already up to date): " + str(unchanged_count))
     print("Errors: " + str(error_count))
     if DRY_RUN:
         print("")
         print("This was a DRY RUN. No data was actually changed in Postgres.")
-        print("Review the output above, then set DRY_RUN = False and run again.")
 
 
 if __name__ == "__main__":
-    fix_duplicates()
+    sync_from_v1()

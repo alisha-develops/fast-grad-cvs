@@ -413,3 +413,11 @@ td {
     font-size: 12px;
     color: #5a7a96;
 }
+
+.hidden {
+    display: none;
+}
+
+.export-button-hidden {
+    display: none !important;
+}
