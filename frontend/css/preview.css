@@ -309,7 +309,14 @@ body {
         padding: 0;
     }
 
+    .page:last-of-type {
+        page-break-after: auto;
+    }
+
+
     .page {
+        page-break-after: always;
+        page-break-inside: avoid;
         max-width: 100%;
         box-shadow: none;
         margin: 0;

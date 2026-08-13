@@ -2,22 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>CV: {{ student.full_name }}</title>
+    <title>Combined CVs</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="/frontend/css/preview.css"/>
 </head>
 <body>
 
-    {% if printable %}
     <div class="print-bar">
         <button id="print-btn" class="btn-print">Print / Save as PDF</button>
-        <button id="close-btn" class="btn-close">Close</button>
         <p class="print-hint">In the print dialog: set <strong>Margins = None</strong> and tick <strong>Background graphics</strong> ✓ for full color.</p>
     </div>
-    {% endif %}
 
+    {% for student in students %}
     {% include "cv_content.html" %}
+    {% endfor %}
 
-    <script src="/frontend/js/preview.js"></script>
+    <script src="/frontend/js/combined.js"></script>
 </body>
 </html>
