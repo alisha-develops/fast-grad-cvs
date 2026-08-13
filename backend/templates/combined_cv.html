@@ -13,6 +13,15 @@
         <p class="print-hint">In the print dialog: set <strong>Margins = None</strong> and tick <strong>Background graphics</strong> ✓ for full color.</p>
     </div>
 
+    <div class="cover-page">
+        <img src="/frontend/images/fastlogo.png" class="cover-logo"/>
+        <p class="cover-university">FAST National University of Computer &amp; Emerging Sciences</p>
+        <div class="cover-gold-line"></div>
+        <h1 class="cover-title">Graduate Directory</h1>
+        <p class="cover-year">2026</p>
+        <p class="cover-count">{{ students|length }} Graduate Profile{{ 's' if students|length != 1 else '' }}</p>
+    </div>
+
     {% for student in students %}
     {% include "cv_content.html" %}
     {% endfor %}
