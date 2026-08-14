@@ -12,8 +12,10 @@
         <span class="brand">FAST NU KHI 2026 graduate directory</span>
         <span class="count">{{ students|length }} submission{{ 's' if students|length != 1 else '' }}</span>
         <a href="/admin/logout" class="logout-link">Sign out</a>
+        <button id="syncopen" class="logout-link trashopenbtn">Sync from V1</button>
         <button id="trashopen" class="logout-link trashopenbtn">🗑 Trash</button>
     </div>
+
     <div class="gold-bar"></div>
 
     <div class="container">
@@ -119,6 +121,32 @@
                 </tbody>
             </table>
             <div id="trashempty" class="trashempty" style="display:none;">Trash is empty.</div>
+        </div>
+    </div>
+
+    <div id="syncbackdrop" class="trashbackdrop"></div>
+
+    <div id="syncwindow" class="trashwindow">
+        <div class="trheader">
+            <span class="trtitle">Sync from V1</span>
+            <button id="syncclose" class="trclose">✕</button>
+        </div>
+        <div class="trbody">
+            <div id="syncloading">Checking for new submissions...</div>
+
+            <div id="syncsummaryonly" class="hidden">
+                <p id="syncsummaryonlytext"></p>
+                <button id="syncnowbtn" class="btn-preview">Sync Now</button>
+            </div>
+
+            <div id="syncresults" class="hidden">
+                <p id="syncsummary"></p>
+                <div id="syncnewlist" class="sync-list-box"></div>
+                <div id="syncupdatedlist" class="sync-list-box"></div>
+                <button id="syncconfirmbtn" class="btn-preview hidden">Confirm & Sync</button>
+            </div>
+
+            <div id="syncdone" class="hidden"></div>
         </div>
     </div>
 

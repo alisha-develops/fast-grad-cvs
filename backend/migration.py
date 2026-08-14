@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 from pymongo import MongoClient
@@ -24,8 +25,6 @@ cloudinary.config(
     api_key=CLOUDINARY_API_KEY,
     api_secret=CLOUDINARY_API_SECRET
 )
-
-DRY_RUN = True
 
 
 def get_value(doc, key):
@@ -64,37 +63,42 @@ def upload_photo_if_present(doc, full_name, dry_run):
         return None
 
 
-def sync_from_v1():
+def sync_from_v1_stream(dry_run):
     mongo_client = MongoClient(MONGO_URI)
     mongo_db = mongo_client["fastnu_cv_tool"]
     submissions_collection = mongo_db["submissions"]
 
     db = SessionLocal()
 
-    print("DRY_RUN is set to " + str(DRY_RUN))
-    print("")
+    yield "dry_run is set to " + str(dry_run)
 
-    all_student_ids_cursor = submissions_collection.distinct("studentId")
+    pipeline = [
+        {"$sort": {"submittedAt": -1}},
+        {"$group": {"_id": "$studentId", "doc": {"$first": "$$ROOT"}}}
+    ]
+    newest_docs_cursor = submissions_collection.aggregate(pipeline)
+
+    all_existing = db.query(Student).all()
+    existing_by_id = {}
+    for student in all_existing:
+        existing_by_id[student.student_id] = student
 
     new_count = 0
     updated_count = 0
     unchanged_count = 0
     error_count = 0
 
-    for student_id in all_student_ids_cursor:
+    new_students = []
+    updated_students = []
+    error_students = []
+
+    for row in newest_docs_cursor:
+        student_id = row["_id"]
+        newest_doc = row["doc"]
+
         if not student_id:
             continue
 
-        newest_doc = list(
-            submissions_collection.find({"studentId": student_id})
-            .sort("submittedAt", -1)
-            .limit(1)
-        )
-
-        if not newest_doc:
-            continue
-
-        newest_doc = newest_doc[0]
         full_name = get_value(newest_doc, "fullName")
 
         if not full_name:
@@ -103,7 +107,7 @@ def sync_from_v1():
         v1_submitted_at = newest_doc.get("submittedAt")
 
         try:
-            existing = db.query(Student).filter(Student.student_id == student_id).first()
+            existing = existing_by_id.get(student_id)
 
             if existing and existing.source_submitted_at is not None:
                 existing_ts = existing.source_submitted_at
@@ -115,16 +119,18 @@ def sync_from_v1():
                     continue
 
             if existing:
-                print("UPDATING: " + full_name + " (" + student_id + ")")
-                if not DRY_RUN:
+                yield "UPDATING: " + full_name + " (" + student_id + ")"
+                if not dry_run:
                     db.delete(existing)
                     db.commit()
                 updated_count = updated_count + 1
+                updated_students.append(full_name + " (" + student_id + ")")
             else:
-                print("NEW FROM V1: " + full_name + " (" + student_id + ")")
+                yield "NEW FROM V1: " + full_name + " (" + student_id + ")"
                 new_count = new_count + 1
+                new_students.append(full_name + " (" + student_id + ")")
 
-            photo_url = upload_photo_if_present(newest_doc, full_name, DRY_RUN)
+            photo_url = upload_photo_if_present(newest_doc, full_name, dry_run)
 
             new_student = Student(
                 full_name=full_name,
@@ -153,28 +159,42 @@ def sync_from_v1():
                 source_submitted_at=v1_submitted_at
             )
 
-            if not DRY_RUN:
+            if not dry_run:
                 db.add(new_student)
                 db.commit()
 
         except Exception as e:
-            print("ERROR syncing " + student_id + ": " + str(e))
+            yield "ERROR syncing " + student_id + ": " + str(e)
             db.rollback()
             error_count = error_count + 1
+            error_students.append(student_id + ": " + str(e))
 
     db.close()
     mongo_client.close()
 
-    print("")
-    print("=== Sync Summary ===")
-    print("New from v1: " + str(new_count))
-    print("Updated (newer version found): " + str(updated_count))
-    print("Unchanged (already up to date): " + str(unchanged_count))
-    print("Errors: " + str(error_count))
-    if DRY_RUN:
-        print("")
-        print("This was a DRY RUN. No data was actually changed in Postgres.")
+    yield "=== Sync Summary ==="
+    yield "New from v1: " + str(new_count)
+    yield "Updated (newer version found): " + str(updated_count)
+    yield "Unchanged (already up to date): " + str(unchanged_count)
+    yield "Errors: " + str(error_count)
 
+    summary = {
+        "dry_run": dry_run,
+        "new_count": new_count,
+        "updated_count": updated_count,
+        "unchanged_count": unchanged_count,
+        "error_count": error_count,
+        "new_students": new_students,
+        "updated_students": updated_students,
+        "error_students": error_students
+    }
+
+    yield "SUMMARY:" + json.dumps(summary)
 
 if __name__ == "__main__":
-    sync_from_v1()
+    for line in sync_from_v1_stream(dry_run=True):
+        if line.startswith("SUMMARY:"):
+            print("")
+            print(line)
+        else:
+            print(line)

@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException, Form, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse, RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy import or_
 from dotenv import load_dotenv
@@ -14,6 +13,8 @@ import os
 from backend.database import SessionLocal, Base, engine
 from backend.student_model import Student
 from backend.submission_schema import StudentSubmission
+from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
+from backend.migration import sync_from_v1_stream
 
 load_dotenv()
 
@@ -346,6 +347,20 @@ def export_cvs(
         name="combined_cv.html",
         context={"students": students}
     )
+
+@app.post("/admin/sync-preview")
+def sync_preview(auth=Depends(require_admin)):
+    def generate():
+        for line in sync_from_v1_stream(dry_run=True):
+            yield line + "\n"
+    return StreamingResponse(generate(), media_type="text/plain")
+
+@app.post("/admin/sync-confirm")
+def sync_confirm(auth=Depends(require_admin)):
+    def generate():
+        for line in sync_from_v1_stream(dry_run=False):
+            yield line + "\n"
+    return StreamingResponse(generate(), media_type="text/plain")
 
 @app.post("/upload-photo")
 async def upload_photo(photo:UploadFile = File(...)):

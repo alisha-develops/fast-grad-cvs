@@ -206,3 +206,184 @@ for (let i = 0; i < studentCheckboxes.length; i++) {
 document.querySelector(".select-all-checkbox").addEventListener("change", handlePageSelectAllClick);
 document.getElementById("select-all-matching-btn").addEventListener("click", handleSelectAllMatchingClick);
 document.getElementById("export-button").addEventListener("click", handleExportClick);
+
+function openSync() {
+    document.getElementById("syncbackdrop").classList.add("open");
+    document.getElementById("syncwindow").classList.add("open");
+    runSyncPreview();
+}
+
+function closeSync() {
+    document.getElementById("syncbackdrop").classList.remove("open");
+    document.getElementById("syncwindow").classList.remove("open");
+}
+
+let bufferedNewLines = [];
+let bufferedUpdatedLines = [];
+let bufferedSummary = null;
+
+async function runSyncPreview() {
+    document.getElementById("syncloading").classList.remove("hidden");
+    document.getElementById("syncsummaryonly").classList.add("hidden");
+    document.getElementById("syncresults").classList.add("hidden");
+    document.getElementById("syncdone").classList.add("hidden");
+
+    bufferedNewLines = [];
+    bufferedUpdatedLines = [];
+    bufferedSummary = null;
+
+    let processedCount = 0;
+    const syncLoadingDiv = document.getElementById("syncloading");
+
+    const response = await fetch("/admin/sync-preview", { method: "POST" });
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    let leftover = "";
+
+    while (true) {
+        const chunk = await reader.read();
+        if (chunk.done) {
+            break;
+        }
+
+        const text = leftover + decoder.decode(chunk.value, { stream: true });
+        const lines = text.split("\n");
+        leftover = lines.pop();
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line === "") {
+                continue;
+            }
+
+            if (line.indexOf("SUMMARY:") === 0) {
+                bufferedSummary = JSON.parse(line.substring(8));
+                continue;
+            }
+
+            if (line.indexOf("NEW FROM V1:") === 0) {
+                bufferedNewLines.push(line);
+                processedCount = processedCount + 1;
+                syncLoadingDiv.textContent = "Checking submissions... (" + processedCount + " found so far)";
+            } else if (line.indexOf("UPDATING:") === 0) {
+                bufferedUpdatedLines.push(line);
+                processedCount = processedCount + 1;
+                syncLoadingDiv.textContent = "Checking submissions... (" + processedCount + " found so far)";
+            }
+        }
+    }
+
+    document.getElementById("syncloading").classList.add("hidden");
+
+    if (bufferedSummary) {
+        const totalPending = bufferedSummary.new_count + bufferedSummary.updated_count;
+        const summaryOnlyText = document.getElementById("syncsummaryonlytext");
+
+        if (totalPending > 0) {
+            summaryOnlyText.textContent = totalPending + " submission" + (totalPending === 1 ? " is" : "s are") + " not synced yet.";
+            document.getElementById("syncsummaryonly").classList.remove("hidden");
+        } else {
+            document.getElementById("syncdone").classList.remove("hidden");
+            document.getElementById("syncdone").textContent = "Everything is already up to date.";
+        }
+    }
+}
+
+function revealSyncDetails() {
+    document.getElementById("syncsummaryonly").classList.add("hidden");
+    document.getElementById("syncresults").classList.remove("hidden");
+
+    const newListDiv = document.getElementById("syncnewlist");
+    const updatedListDiv = document.getElementById("syncupdatedlist");
+    newListDiv.innerHTML = "";
+    updatedListDiv.innerHTML = "";
+
+    for (let i = 0; i < bufferedNewLines.length; i++) {
+        const entry = document.createElement("p");
+        entry.textContent = bufferedNewLines[i];
+        newListDiv.appendChild(entry);
+    }
+
+    for (let i = 0; i < bufferedUpdatedLines.length; i++) {
+        const entry = document.createElement("p");
+        entry.textContent = bufferedUpdatedLines[i];
+        updatedListDiv.appendChild(entry);
+    }
+
+    const summaryText = document.getElementById("syncsummary");
+    summaryText.textContent = bufferedSummary.new_count + " new students will be synced, " + bufferedSummary.updated_count + " will get their recent resubmission synced, " + bufferedSummary.unchanged_count + " are already up to date, " + bufferedSummary.error_count + " errors";
+
+    document.getElementById("syncconfirmbtn").classList.remove("hidden");
+}
+
+async function runSyncConfirm() {
+    document.getElementById("syncconfirmbtn").classList.add("hidden");
+
+    const summaryText = document.getElementById("syncsummary");
+    const newListDiv = document.getElementById("syncnewlist");
+    const updatedListDiv = document.getElementById("syncupdatedlist");
+    newListDiv.innerHTML = "";
+    updatedListDiv.innerHTML = "";
+    summaryText.textContent = "Starting sync...";
+
+    const response = await fetch("/admin/sync-confirm", { method: "POST" });
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    let leftover = "";
+    let finalSummary = null;
+
+    while (true) {
+        const chunk = await reader.read();
+        if (chunk.done) {
+            break;
+        }
+
+        const text = leftover + decoder.decode(chunk.value, { stream: true });
+        const lines = text.split("\n");
+        leftover = lines.pop();
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line === "") {
+                continue;
+            }
+
+            if (line.indexOf("SUMMARY:") === 0) {
+                finalSummary = JSON.parse(line.substring(8));
+                continue;
+            }
+
+            if (line.indexOf("NEW FROM V1:") === 0) {
+                const entry = document.createElement("p");
+                entry.textContent = line;
+                newListDiv.appendChild(entry);
+            } else if (line.indexOf("UPDATING:") === 0) {
+                const entry = document.createElement("p");
+                entry.textContent = line;
+                updatedListDiv.appendChild(entry);
+            } else {
+                summaryText.textContent = line;
+            }
+        }
+    }
+
+    const doneDiv = document.getElementById("syncdone");
+    doneDiv.classList.remove("hidden");
+    if (finalSummary) {
+        doneDiv.textContent = "Done! " + finalSummary.new_count + " new students synced, " + finalSummary.updated_count + " recent resubmissions synced.";
+    } else {
+        doneDiv.textContent = "Done!";
+    }
+
+    setTimeout(function () {
+        window.location.reload();
+    }, 2000);
+}
+
+document.getElementById("syncopen").addEventListener("click", openSync);
+document.getElementById("syncclose").addEventListener("click", closeSync);
+document.getElementById("syncbackdrop").addEventListener("click", closeSync);
+document.getElementById("syncconfirmbtn").addEventListener("click", runSyncConfirm);
+document.getElementById("syncnowbtn").addEventListener("click", revealSyncDetails);
