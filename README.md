@@ -1,5 +1,7 @@
 # FAST graduate directory cv collection 2026
 
+[jump to update](#update)
+
 i created this to support the career services department at [FAST NUCES Karachi](https://khi.nu.edu.pk/). this idea came from my sister, a liaison officer, who was managing graduate information through google forms. previously, students would submit their details in goole form, and staff had to manually reformat each one into a consistent word
 document template which is a slow, repetitive, and tiring process when there are
 potentially 1000+ submissions per graduating batch. to solve this problem and simplify the process, i built this form as a centralized platform for collecting student profiles, managing submissions, and generating professional cvs.
@@ -82,3 +84,41 @@ one more thing that the student passport photos are uploaded to and served from 
 as i looked into using weasyprint for real server side pdf generation, but
 decided against it since it needs system level dependencies that vercel's
 serverless environment doesnt support.
+
+## update
+
+<table>
+  <tr>
+    <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
+      <img src="https://cdn.hackclub.com/01a0069e-8866-7b4a-88d3-679243d6f352/admin%20dashboard2.png" alt="batch cv export" style="object-fit: cover; border-radius: 4px;">
+      <p>the red circles mark everything covered in this update. batch export, select all matching, sync from v1, and the live stats bar.</p>
+    </td>
+    <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
+      <img src="https://cdn.hackclub.com/01a0068c-c69a-78d9-aa25-f5601d72de0c/batch%20cv%20export.png" alt="batch cv export" style="object-fit: cover; border-radius: 4px;">
+      <p>batch cv export: select multiple students individually, or "select all matching" across a search/filter, and export them as one combined pdf with a cover page.</p>
+      <img src="https://cdn.hackclub.com/01a0068c-c60b-7a50-9665-305a5ed24c87/select%20all%20matching%20students.png" alt="select all matching students" style="object-fit: cover; border-radius: 4px;">
+      <p>select all matching: pulls in every student across the current search/filter, even across paginated pages, not just what's visible on screen.</p>
+    </td>
+    <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
+      <img src="https://cdn.hackclub.com/01a0067e-ea38-76bb-bc93-9bf5fd4b0736/stats%20bar.png" alt="stats bar"style="object-fit: cover; border-radius: 4px;">
+      <p>the stats bar (total submissions, matching filter count, bs/ms breakdown) pulls live from the database on every page load, so counts update automatically once a sync finishes.</p>
+      <img src="https://cdn.hackclub.com/01a006a1-72e1-75ac-825e-b77071d57a62/sync%20button.png" alt="sync from v1"  style="object-fit: cover; border-radius: 4px;">
+      <p>sync from v1: admin clicks this button and an additional existing window opens that checks mongo for new or resubmitted students, shows live progress into an additional existing window, and always runs as a dry run preview before an explicit confirm actually writes anything.</p>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
+      <img src="https://cdn.hackclub.com/01a006a2-d803-7229-95b9-e9aff50cfbfb/sync%20window.png" alt="sync window" style="object-fit: cover; border-radius: 4px;">
+      <p>the sync window shows which students are new or have a newer resubmission, then shows either 'X submissions not synced yet' with a sync now button, or 'everything is already up to date.' in the attached picture, no student had submitted a new cv, so it didn't show an option to sync.</p>
+    </td>
+  </tr>
+</table>
+
+ai usage: yes, built updates with the help of claude.
+
+**demo:** since these updates are entirely in the admin panel and the panel now holds real student submission data, i still cant open it up for testing (same reasoning as the admin access note above). im again, attaching another video demo showing every single update:
+
+as before, if you want to try the live dashboard yourself, reach out on slack: @Alisha!
