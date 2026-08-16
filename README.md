@@ -92,6 +92,8 @@ serverless environment doesnt support.
     <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
       <img src="https://cdn.hackclub.com/01a0069e-8866-7b4a-88d3-679243d6f352/admin%20dashboard2.png" alt="batch cv export" style="object-fit: cover; border-radius: 4px;">
       <p>the red circles mark everything covered in this update. batch export, select all matching, sync from v1, and the live stats bar.</p>
+      <img src="https://cdn.hackclub.com/01a00a50-4d09-7c95-90f7-1eaf9032dea9/prev%20and%20next%20nav.png" alt="batch cv export" style="object-fit: cover; border-radius: 4px;">
+      <p><p>pagination now supports jumping directly to a specific page number, instead of only staying at one long page.</p></p>
     </td>
     <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
       <img src="https://cdn.hackclub.com/01a0068c-c69a-78d9-aa25-f5601d72de0c/batch%20cv%20export.png" alt="batch cv export" style="object-fit: cover; border-radius: 4px;">
@@ -111,8 +113,20 @@ serverless environment doesnt support.
 <table>
   <tr>
     <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
-      <img src="https://cdn.hackclub.com/01a006a2-d803-7229-95b9-e9aff50cfbfb/sync%20window.png" alt="sync window" style="object-fit: cover; border-radius: 4px;">
-      <p>the sync window shows which students are new or have a newer resubmission, then shows either 'X submissions not synced yet' with a sync now button, or 'everything is already up to date.' in the attached picture, no student had submitted a new cv, so it didn't show an option to sync.</p>
+      <img src="https://cdn.hackclub.com/01a00a45-c2c9-74f6-b26b-1f9b00101a5c/checking....png" alt="checking for submissions" style="object-fit: cover; border-radius: 4px;">
+      <p>clicking "sync from v1" opens a modal and checks mongo against postgres in the background, it shows a simple "checking for new submissions..." message.</p>
+    </td>
+    <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
+      <img src="https://cdn.hackclub.com/01a00a45-c248-7be0-b3f8-1eaa9d6c7595/2%20students%20unsynced.png" alt="2 students unsynced" style="object-fit: cover; border-radius: 4px;">
+      <p>once the check finishes, it shows a plain count of how many submissions aren't synced yet, with a "sync now" button to reveal the details.</p>
+    </td>
+    <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
+      <img src="https://cdn.hackclub.com/01a00a45-c12c-7fea-909f-dbf2ed685903/2%20students%20unsynced%20details.png" alt="2 students unsynced details"style="object-fit: cover; border-radius: 4px;">
+      <p>clicking "sync now" reveals exactly which students are new or have a newer resubmission, fit into two scrollable boxes, with a "confirm & sync" button to actually commit it. admin can click this button to finally migrate pending submissions.</p>
+    </td>
+    <td align="center" valign="top" style="padding: 15px; border: 1px solid #30363d; border-radius: 6px;">
+      <img src="https://cdn.hackclub.com/01a006a2-d803-7229-95b9-e9aff50cfbfb/sync%20window.png" alt="already synced" style="object-fit: cover; border-radius: 4px;">
+      <p>if nothing is pending, the check finishes and shows "everything is already up to date" instead - no sync now button, nothing left to do.</p>
     </td>
   </tr>
 </table>

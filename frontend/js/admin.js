@@ -270,7 +270,14 @@ async function runSyncPreview() {
                 bufferedUpdatedLines.push(line);
                 processedCount = processedCount + 1;
                 syncLoadingDiv.textContent = "Checking submissions... (" + processedCount + " found so far)";
+            } else if (line.indexOf("checking existing students") === 0) {
+                syncLoadingDiv.textContent = line;
+            } else if (line.indexOf("found") === 0) {
+                syncLoadingDiv.textContent = line;
+            } else if (line.indexOf("checking...") === 0) {
+                syncLoadingDiv.textContent = line;
             }
+            
         }
     }
 

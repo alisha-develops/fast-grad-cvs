@@ -14,7 +14,7 @@ from backend.database import SessionLocal, Base, engine
 from backend.student_model import Student
 from backend.submission_schema import StudentSubmission
 from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
-from backend.migration import sync_from_v1_stream
+from backend.migration import sync_preview_stream, sync_confirm_stream
 
 load_dotenv()
 
@@ -351,14 +351,14 @@ def export_cvs(
 @app.post("/admin/sync-preview")
 def sync_preview(auth=Depends(require_admin)):
     def generate():
-        for line in sync_from_v1_stream(dry_run=True):
+        for line in sync_preview_stream():
             yield line + "\n"
     return StreamingResponse(generate(), media_type="text/plain")
 
 @app.post("/admin/sync-confirm")
 def sync_confirm(auth=Depends(require_admin)):
     def generate():
-        for line in sync_from_v1_stream(dry_run=False):
+        for line in sync_confirm_stream():
             yield line + "\n"
     return StreamingResponse(generate(), media_type="text/plain")
 
